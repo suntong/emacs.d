@@ -13,8 +13,6 @@
 
 ;;; Code:
 
-;;;_ , abbrev
-
 ;;;_ , write-room
 
 (defun write-room ()

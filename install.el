@@ -24,12 +24,16 @@
 (when (not package-archive-contents)
    (package-refresh-contents))
 (defvar myown/packages
-   '(markdown-mode yasnippet))
+   '(undo-tree markdown-mode))
 (dolist (p myown/packages)
    (when (not (package-installed-p p))
      (package-install p)))
 
-;; being part of Emacs: cc-mode cperl-mode 
+;; Packages being part of Emacs:
+;; * cc-mode cperl-mode 
+
+;; Packages to ingore:
+;; - yasnippet, way to big for me
 
 ;; Local Variables:
 ;;   mode: emacs-lisp

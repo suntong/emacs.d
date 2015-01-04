@@ -240,7 +240,6 @@
 (bind-key "C-c f" 'flush-lines)
 (bind-key "C-c g" 'goto-line)
 
-(bind-key "C-c k" 'keep-lines)
 
 (defun insert-date ()
   (interactive)

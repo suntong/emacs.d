@@ -321,6 +321,17 @@
   :commands (smartparens-mode show-smartparens-mode)
   :config (require 'smartparens-config))
 
+;;;_ , undo-tree
+;; http://www.emacswiki.org/emacs/RedoMode
+(use-package undo-tree
+  :init (progn
+    (global-undo-tree-mode 1)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t))
+  :bind (("C-c j" . undo-tree-undo)
+         ("C-c k" . undo-tree-redo)
+         ("C-c l" . undo-tree-switch-branch)
+         ("C-c ;" . undo-tree-visualize)) )
 
 ;;;_ , wrap-region
 (use-package wrap-region
