@@ -10,6 +10,9 @@
 
 ;;; Code:
 
+;; Adobe Extend Script
+(add-hook 'html-mode-hook #'(lambda nil (setq sgml-mode t)))
+
 ;;;_ , css-mode
 
 (use-package css-mode

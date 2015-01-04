@@ -75,12 +75,6 @@
 ;;;_** Not installed through `package.el'
 
 
-;;;_** Mode mappings and hooks
-
-;; Adobe Extend Script
-                              
-(add-hook 'html-mode-hook #'(lambda nil (setq sgml-mode t)))
-
 
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
