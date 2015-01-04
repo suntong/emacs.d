@@ -20,6 +20,12 @@
 (put 'set-goal-column  'disabled nil)
 (put 'upcase-region    'disabled nil)   ; Let upcasing work
 
+;;;_ , Overwrite highlighted block
+;; http://www.emacswiki.org/emacs/DeleteSelectionMode
+(delete-selection-mode 1)
+(make-variable-buffer-local 'transient-mark-mode)
+(put 'transient-mark-mode 'permanent-local t)
+(setq-default transient-mark-mode t)
 
 ;;;; Be silent about successful auto saving
 (defadvice do-auto-save (around do-auto-save-silent activate)
