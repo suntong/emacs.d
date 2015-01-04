@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Mode line
+# key: mode
+# --
+// -*- mode: ${1:C++}; tab-width: 2; indent-tabs-mode: nil; coding: unix -*-
