@@ -370,6 +370,75 @@
             (insert comment)))
         (goto-char here)))))
 
+;;;_ , cperl-mode
+;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
+
+(use-package cperl-mode
+  :commands cperl-mode
+  :mode ("\\.p[lm]$" . cperl-mode)
+  :init
+  (progn
+    (mapc (lambda (pair)
+            (if (eq (cdr pair) 'perl-mode)
+                (setcdr pair 'cperl-mode)))
+          (append auto-mode-alist interpreter-mode-alist))
+
+    (add-hook 'cperl-mode-hook
+              (lambda ()
+		"cperl-mode customizations, must be done after cperl-mode loads"
+
+                (outline-minor-mode t)
+                ;;(which-function-mode t)
+                (eval-when-compile (require 'cperl-mode))
+                (abbrev-mode)
+		
+		(defun cperl-outline-level ()
+		  (looking-at outline-regexp)
+		  (let ((match (match-string 1)))
+		    (cond
+		     ((eq match "=head1" ) 1)
+		     ((eq match "package") 2)
+		     ((eq match "=head2" ) 3)
+		     ((eq match "=item"  ) 4)
+		     ((eq match "sub"    ) 5)
+		     (t 7)
+		     )))
+
+                (setq
+                 indent-tabs-mode nil
+                 ;;cperl-hairy t
+                 cperl-indent-level 4
+                 cperl-brace-offset 0
+                 cperl-continued-brace-offset -4
+                 cperl-continued-statement-offset 4
+                 cperl-label-offset -4
+                 cperl-indent-parens-as-block t
+                 cperl-close-paren-offset -4
+                 cperl-invalid-face nil
+                 cperl-electric-parens nil
+                 cperl-electric-keywords t
+		 my-cperl-outline-regexp
+		 (concat
+		  "^"                              ; Start of line
+		  "[ \\t]*"                        ; Skip leading whitespace
+		  "\\("                            ; begin capture group \1
+		  (join "\\|"
+			"=head[12]"                  ;     POD header
+			"package"                    ;     package
+			"=item"                      ;     POD item
+			"sub"                        ;     subroutine definition
+			"if" "else" "unless" "while" "until" "return"
+			)
+		  "\\)"                            ; end capture group \1
+		  "\\b"                            ; Word boundary
+		  )
+		 cperl-outline-regexp  my-cperl-outline-regexp
+		 outline-regexp        cperl-outline-regexp
+		 outline-level        'cperl-outline-level
+		 )
+
+                (modify-syntax-entry ?_ "w" cperl-mode-syntax-table)))))
+
 
 ;;;_ , sh-script
 
