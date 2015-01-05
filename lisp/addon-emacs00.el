@@ -30,7 +30,7 @@
 ;;
 ;;   M-g <letter>  goto map
 ;;   M-s <letter>  search map
-;;   M-o <letter>  markup map (even if only temporarily)
+;;   M-o <letter>  outline-minor-mode key map
 ;;
 ;;   C-<capital letter>
 ;;   M-<capital letter>
@@ -347,6 +347,33 @@
 ;;;_  . C-. C-i
 
 (bind-key "C-. C-i" 'indent-rigidly)
+
+;;;_ , M-o, Outline-minor-mode key map
+;; http://www.emacswiki.org/emacs/OutlineMinorMode
+
+(defvar meta-o-map)
+(define-prefix-command 'meta-o-map nil "Outline-")
+(bind-key "M-o" 'meta-o-map)
+
+; HIDE
+(bind-key "M-o q" 'hide-sublevels)    ; Quiet, Hide everything but the top-level headings
+(bind-key "M-o t" 'hide-body)         ; Topics, Hide everything but headings (all body lines)
+(bind-key "M-o o" 'hide-other)        ; Other, Hide other branches
+(bind-key "M-o c" 'hide-entry)        ; Current, Hide this entry's body
+(bind-key "M-o l" 'hide-leaves)       ; Leaves, Hide body lines in this entry and sub-entries
+(bind-key "M-o d" 'hide-subtree)      ; Down, Hide everything in this entry and sub-entries
+; SHOW
+(bind-key "M-o a" 'show-all)          ; Show (expand) everything
+(bind-key "M-o e" 'show-entry)        ; Show this heading's body
+(bind-key "M-o i" 'show-children)     ; Show this heading's immediate child sub-headings
+(bind-key "M-o k" 'show-branches)     ; Show all sub-headings under this heading
+(bind-key "M-o s" 'show-subtree)      ; Show (expand) everything in this heading & below
+; MOVE
+(bind-key "M-o u" 'outline-up-heading)                ; Up
+(bind-key "M-o n" 'outline-next-visible-heading)      ; Next
+(bind-key "M-o p" 'outline-previous-visible-heading)  ; Previous
+(bind-key "M-o f" 'outline-forward-same-level)        ; Forward - same level
+(bind-key "M-o b" 'outline-backward-same-level)       ; Backward - same level
 
 ;;;_ , help-map
 
