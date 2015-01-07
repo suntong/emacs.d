@@ -11,12 +11,14 @@
 
 ;;; Code:
 
+;;;_* markdown-mode
 (use-package markdown-mode
   :mode ("\\.\\(txt\\|markdown\\|md\\)\\'" . markdown-mode))
 
+;;;_* markdown-toc
+(use-package markdown-toc
+  :bind (("C-c C-x T" . markdown-toc/generate-toc)))
+;; It will compute the TOC at insert it at current position, but work only for github
+;; since those toc anchors are not inserted by default anywhere else.
 
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;\\([*]+\\)"
 ;; End:
