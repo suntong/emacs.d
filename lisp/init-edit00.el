@@ -11,7 +11,7 @@
 
 ;;; Code:
 
-;;;_ , abbrev
+;;;_* abbrev
 (use-package abbrev
   :disabled t
   :commands abbrev-mode
@@ -29,33 +29,91 @@
                (add-hook 'expand-expand-hook 'indent-according-to-mode)
                (add-hook 'expand-jump-hook 'indent-according-to-mode)))))
 
-;;;_ , allout
+;;;_* allout
+
+;; allout hot-spot keys and activities
+;;
+;; p allout-previous-visible-heading
+;; u allout-up-current-level
+;;
+;; f allout-forward-current-level
+;; b allout-backward-current-level
+;;
+;; a allout-beginning-of-current-entry
+;; e allout-end-of-entry
+;;
+;; i allout-show-children
+;; s allout-show-current-subtree
+;; t allout-toggle-current-subtree-exposure
+
 (use-package allout
-  :disabled t
-  :diminish allout-mode
-  :commands allout-mode
   :config
   (progn
     (defvar allout-unprefixed-keybindings nil)
 
     (defun my-allout-mode-hook ()
-      (dolist (mapping '((?b . allout-hide-bodies)
-                         (?c . allout-hide-current-entry)
-                         (?l . allout-hide-current-leaves)
-                         (?i . allout-show-current-branches)
-                         (?e . allout-show-entry)
-                         (?o . allout-show-to-offshoot)))
+      (dolist
+	  (mapping
+	   '(
+	     (?t . allout-hide-bodies)    ; Topics, Hide everything but headings (all body lines)
+	     (?c . allout-hide-current-entry) ; Current, Hide this entry's body
+	     (?l . allout-hide-current-leaves) ; Leaves, Hide body lines in this entry and sub-entries
+	     (?i . allout-show-current-branches) ; Show all sub-headings under this heading
+	     (?e . allout-show-entry)		 ; Show this heading's body
+	     (?o . allout-show-to-offshoot)))
         (eval `(bind-key ,(concat (format-kbd-macro allout-command-prefix)
                                   " " (char-to-string (car mapping)))
                          (quote ,(cdr mapping))
                          allout-mode-map)))
 
-      (if (memq major-mode lisp-modes)
-          (unbind-key "C-k" allout-mode-map)))
+      (setq allout-command-prefix (kbd "C-c C-c"))
+      )
 
-    (add-hook 'allout-mode-hook 'my-allout-mode-hook)))
+    (defvar my-allout-font-lock-keywords
+      '(;;
+	;; Highlight headings according to the level.
+	(eval . (list (concat "^\\(" allout-regexp "\\).+")
+		      0 '(or (cdr (assq (allout-depth)
+					'((1 . font-lock-function-name-face)
+					  (2 . font-lock-variable-name-face)
+					  (3 . font-lock-keyword-face)
+					  (4 . font-lock-builtin-face)
+					  (5 . font-lock-comment-face)
+					  (6 . font-lock-constant-face)
+					  (7 . font-lock-type-face)
+					  (8 . font-lock-string-face))))
+			     font-lock-warning-face)
+		      nil t)))
+      "Additional expressions to highlight in Outline mode.")
 
-;;;_ , auto-complete
+    ;; add font-lock to allout mode
+    (defun my-allout-font-lock-hook ()
+      (set (make-local-variable 'font-lock-defaults)
+	   '(my-allout-font-lock-keywords t nil nil allout-back-to-current-heading)))
+
+
+    (add-hook 'allout-mode-hook 'my-allout-mode-hook)
+    ;(add-hook 'allout-mode-hook 'my-allout-font-lock-hook)
+    ))
+
+;; Enable the allout minor mode on Emacs starts for all modes
+;; by creating a global version of the minor mode
+(defun my-turn-on-allout-mode-maybe ()
+  "Enable `allout-mode', where applicable."
+  ;; Unconditional here, but edit as desired if it turns out
+  ;; that you don't actually want this for ALL modes.
+  ;; (This function is called in every buffer, when the
+  ;; global mode is enabled.)
+  (allout-mode 1))
+
+(define-globalized-minor-mode my-global-allout-mode allout-mode
+  my-turn-on-allout-mode-maybe
+  :group 'allout)
+
+(my-global-allout-mode 1)
+
+
+;;;_* auto-complete
 (use-package auto-complete-config
   :disabled t
   :diminish auto-complete-mode
@@ -73,7 +131,7 @@
     (bind-key "A-M-?" 'ac-last-help)
     (unbind-key "C-s" ac-completing-map)))
 
-;;;_ , autopair
+;;;_* autopair
 (use-package autopair
   :disabled t
   :commands autopair-mode
@@ -85,7 +143,7 @@
                                      python-mode-hook
                                      sh-mode-hook)))
 
-;;;_ , autorevert
+;;;_* autorevert
 (use-package autorevert
   :commands auto-revert-mode
   :diminish auto-revert-mode
@@ -94,7 +152,7 @@
             #'(lambda ()
                 (auto-revert-mode 1))))
 
-;;;_ , flycheck
+;;;_* flycheck
 (use-package flycheck
   :config
   (defalias 'flycheck-show-error-at-point-soon 'flycheck-show-error-at-point)
@@ -118,7 +176,7 @@
 
     (push 'clang++-ledger flycheck-checkers)))
 
-;;;_ , flyspell
+;;;_* flyspell
 (use-package ispell
   :bind (("C-c i c" . ispell-comments-and-strings)
          ("C-c i d" . ispell-change-dictionary)
@@ -132,7 +190,7 @@
   :config
   (define-key flyspell-mode-map [(control ?.)] nil))
 
-;;;_ , grep
+;;;_* grep
 (use-package grep
   :bind (("M-s d" . find-grep-dired)
          ("M-s f" . find-grep)
@@ -170,14 +228,14 @@
        '("find . -name '*.hs' -type f -print0 | xargs -P4 -0 egrep -nH "
          . 62)))))
 
-;;;_ , hi-lock
+;;;_* hi-lock
 (use-package hi-lock
   :bind (("M-o l" . highlight-lines-matching-regexp)
          ("M-o r" . highlight-regexp)
          ("M-o w" . highlight-phrase)))
 
 
-;;;_ , ido
+;;;_* ido
 (use-package ido
   :defines (ido-cur-item
             ido-require-match
@@ -243,7 +301,7 @@
 
     (bind-key "C-x 5 t" 'ido-switch-buffer-tiny-frame)))
 
-;;;_ , paren
+;;;_* paren
 (unless (use-package mic-paren
           :init
           (paren-activate))
@@ -251,12 +309,12 @@
     :init
     (show-paren-mode 1)))
 
-;;;_ , popup-ruler
+;;;_* popup-ruler
 (use-package popup-ruler
   :bind (("C-. r" . popup-ruler)
          ("C-. R" . popup-ruler-vertical)))
 
-;;;_ , recentf
+;;;_* recentf
 (use-package recentf
   :if (not noninteractive)
   :init
@@ -275,7 +333,7 @@
 
     (add-hook 'dired-mode-hook 'recentf-add-dired-directory)))
 
-;;;_ , session
+;;;_* session
 (use-package session
   :if (not noninteractive)
   :load-path "site-lisp/session/lisp/"
@@ -316,12 +374,12 @@
         (add-hook 'after-init-hook 'session-initialize t))))
 
 
-;;;_ , smartparens
+;;;_* smartparens
 (use-package smartparens
   :commands (smartparens-mode show-smartparens-mode)
   :config (require 'smartparens-config))
 
-;;;_ , undo-tree
+;;;_* undo-tree
 ;; http://www.emacswiki.org/emacs/RedoMode
 (use-package undo-tree
   :init (progn
@@ -331,9 +389,9 @@
   :bind (("C-c j" . undo-tree-undo)
          ("C-c k" . undo-tree-redo)
          ("C-c l" . undo-tree-switch-branch)
-         ("C-c ;" . undo-tree-visualize)) )
+         ("C-c '" . undo-tree-visualize)) )
 
-;;;_ , wrap-region
+;;;_* wrap-region
 (use-package wrap-region
   :commands wrap-region-mode
   :diminish wrap-region-mode
@@ -345,11 +403,7 @@
      ("`" "`" nil (markdown-mode ruby-mode shell-script-mode)))))
 
 
-;;;_ , others
+;;;_* others
 ;(load-library "init-edit01-yasnippet") 
 
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;\\([*]+\\)"
 ;; End:
