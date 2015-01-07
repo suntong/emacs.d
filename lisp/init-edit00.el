@@ -374,6 +374,16 @@
         (add-hook 'after-init-hook 'session-initialize t))))
 
 
+;;;_* show-paren-mode
+(show-paren-mode 1)
+;; C-M-f Move forward over a balanced expression
+;; C-M-b Move backward over a balanced expression
+;; C-M-k Kill balanced expression forward
+;; C-M-SPC put the mark at the end of the sexp.
+;; C-M-n Move forward over a parenthetical group
+;; C-M-p Move backward over a parenthetical group
+;; Or Use C-M-right and C-M-left to go to the beginning or the end of the current expression.
+
 ;;;_* smartparens
 (use-package smartparens
   :commands (smartparens-mode show-smartparens-mode)
