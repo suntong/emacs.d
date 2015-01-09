@@ -84,7 +84,6 @@
 (bind-key "RET" 'newline-and-indent)
 (bind-key "M-<SPC>" 'cycle-spacing)
 
-(bind-key "C-, p" 'sa-pad-line-ending)
 (bind-key "C-, o" 'ff-find-other-file)
 
 

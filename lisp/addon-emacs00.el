@@ -334,6 +334,8 @@ whitespace.  With argument, kill that many words."
 (bind-key "C-x M-]" 'quote-region-pre)
 (bind-key "C-x M-[" 'quote-region-3rdp)
 
+;; from addon-edit00.el
+(bind-key "C-x M-p" 'sa-pad-line-ending)
 
 ;;;_* Mode-specific-map
 
