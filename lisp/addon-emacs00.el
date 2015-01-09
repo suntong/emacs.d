@@ -13,13 +13,13 @@
 
 ;;; Code:
 
-;;;_ , Utility macros and functions
+;;;_* Utility macros and functions
 
 (defmacro hook-into-modes (func modes)
   `(dolist (mode-hook ,modes)
      (add-hook mode-hook ,func)))
 
-;;;_. Keybindings
+;;;_* Keybindings
 (require 'bind-key)
 
 ;; Main keymaps for personal bindings are:
@@ -42,9 +42,9 @@
 ;;   C- ,'";:?<>|!#$%^&*`~ <tab>
 ;;   M- ?#
 
-;;;_ , global-map
+;;;_* global-map
 
-;;;_  . C-?
+;;;_ > C-?
 
 (defvar ctl-period-map)
 (define-prefix-command 'ctl-period-map)
@@ -66,7 +66,7 @@
     (shell-command-on-region
      (mark) (point) "python -m json.tool" (buffer-name) t)))
 
-;;;_  . M-?
+;;;_ > M-?
 
 ;(bind-key "M-!" 'async-shell-command)
 (bind-key "M-/" 'dabbrev-expand)
@@ -122,7 +122,7 @@
 (bind-key "M-s n" 'find-name-dired)
 ;;(bind-key "M-s o" 'occur)
 
-;;;_  . M-C-?
+;;;_ > M-C-?
 
 (bind-key "<C-M-backspace>" 'backward-kill-sexp)
 
@@ -146,26 +146,26 @@
 (bind-key "C-^" 'isearch-edit-string isearch-mode-map)
 (bind-key "C-i" 'isearch-complete isearch-mode-map)
 
-;;;_  . A-?
+;;;_ > A-?
 
 (define-key key-translation-map (kbd "A-TAB") (kbd "C-TAB"))
 
-;;;_ , ctl-x-map
+;;;_* ctl-x-map
 
-;;;_  . C-x ?
+;;;_ > C-x ?
 
 (bind-key "C-x B" 'ido-switch-buffer-other-window)
 (bind-key "C-x F" 'set-fill-column)
 (bind-key "C-x t" 'toggle-truncate-lines)
 (bind-key "C-x r W" 'delete-whitespace-rectangle)
 
-;;;_  . C-x C-?
+;;;_ > C-x C-?
 
 (bind-key "C-x C-e" 'pp-eval-last-sexp)
 (bind-key "C-x C-n" 'next-line)
 
 
-;;;_  . C-x M-?
+;;;_ > C-x M-?
 
 (bind-key "C-x M-n" 'set-goal-column)
 
@@ -204,9 +204,9 @@
 
 (bind-key "C-x M-q" 'refill-paragraph)
 
-;;;_ , mode-specific-map
+;;;_* mode-specific-map
 
-;;;_  . C-c ?
+;;;_ > C-c ?
 
 (bind-key "C-c <tab>" 'ff-find-other-file)
 (bind-key "C-c SPC" 'just-one-space)
@@ -240,10 +240,41 @@
 (bind-key "C-c f" 'flush-lines)
 (bind-key "C-c g" 'goto-line)
 
+;;;_   : insert the date & time
+
+;; Functions to insert the date, the time, and the date and time at
+;; point.
+
+(defvar insert-date-format "%Y-%m-%d" ;" %a %d %b %Y"
+  "*Format for \\[insert-date] (c.f. 'format-time-string' for how to
+format).")
+
+(defvar insert-time-format "%H:%M:%S"
+  "*Format for \\[insert-time] (c.f. 'format-time-string' for how to
+format).")
 
 (defun insert-date ()
+  "Insert the current date according to the variable \"insert-date-format\"."
   (interactive)
-  (insert (format-time-string "%Y-%m-%d")))
+  (insert (format-time-string insert-date-format)))
+
+(defun insert-time ()
+  "Insert the current time according to the variable \"insert-time-format\"."
+  (interactive "*")
+  (insert (format-time-string insert-time-format (current-time)))
+  )
+
+(defun insert-date-and-time ()
+  "Insert the current date according to the variable \"insert-date-format\",
+then a space, then the current time according to the variable
+\"insert-time-format\"."
+  (interactive "*")
+  (progn
+    (insert-date)
+    (insert " ")
+    (insert-time))
+  )
+
 
 (defcustom user-initials nil
   "*Initials of this user."
@@ -268,7 +299,10 @@
   (insert (format "%s (%s): " user-initials
                   (format-time-string "%Y-%m-%d" (current-time)))))
 
-(bind-key "C-c n" 'insert-user-timestamp)
+(bind-key "C-c C-d C-d" 'insert-date)
+(bind-key "C-c C-d C-t" 'insert-time)
+(bind-key "C-c C-d C-w" 'insert-date-and-time) ; Insert whole date & time
+(bind-key "C-c C-d u" 'insert-user-timestamp)  ; Insert user-timestamp
 (bind-key "C-c o" 'customize-option)
 (bind-key "C-c O" 'customize-group)
 
@@ -295,7 +329,7 @@
 (bind-key "C-c =" 'count-matches)
 (bind-key "C-c ;" 'comment-or-uncomment-region)
 
-;;;_  . C-c C-?
+;;;_ > C-c C-?
 
 (defun delete-to-end-of-buffer ()
   (interactive)
@@ -303,7 +337,7 @@
 
 (bind-key "C-c C-z" 'delete-to-end-of-buffer)
 
-;;;_  . C-c M-?
+;;;_ > C-c M-?
 
 (defun unfill-paragraph (arg)
   (interactive "*p")
@@ -338,17 +372,17 @@
       (unfill-paragraph 1)
       (forward-paragraph))))
 
-;;;_ , ctl-period-map
+;;;_* ctl-period-map
 
-;;;_  . C-. ?
+;;;_ > C-. ?
 
 (bind-key "C-. m" 'kmacro-keymap)
 
-;;;_  . C-. C-i
+;;;_ > C-. C-i
 
 (bind-key "C-. C-i" 'indent-rigidly)
 
-;;;_ , M-o, Outline-minor-mode key map
+;;;_* M-o, Outline-minor-mode key map
 ;; http://www.emacswiki.org/emacs/OutlineMinorMode
 
 (defvar meta-o-map)
@@ -375,14 +409,14 @@
 (bind-key "M-o M-o f" 'outline-forward-same-level)        ; Forward - same level
 (bind-key "M-o M-o b" 'outline-backward-same-level)       ; Backward - same level
 
-;;;_ , help-map
+;;;_* help-map
 
 (defvar lisp-find-map)
 (define-prefix-command 'lisp-find-map)
 
 (bind-key "C-h e" 'lisp-find-map)
 
-;;;_  . C-h e ?
+;;;_ > C-h e ?
 
 (bind-key "C-h e c" 'finder-commentary)
 (bind-key "C-h e e" 'view-echo-area-messages)
@@ -397,8 +431,4 @@
 (bind-key "C-h e V" 'apropos-value)
 
 
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;\\([*]+\\)"
 ;; End:
