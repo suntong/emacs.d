@@ -22,27 +22,9 @@
 ;;;_* Keybindings
 (require 'bind-key)
 
-;; Main keymaps for personal bindings are:
-;;
-;;   C-x <letter>  primary map (has many defaults too)
-;;   C-c <letter>  secondary map (not just for mode-specific)
-;;   C-. <letter>  tertiary map
-;;
-;;   M-g <letter>  goto map
-;;   M-s <letter>  search map
-;;   M-o <letter>  outline-minor-mode key map
-;;
-;;   C-<capital letter>
-;;   M-<capital letter>
-;;
-;;   A-<anything>
-;;   M-A-<anything>
-;;
-;; Single-letter bindings still available:
-;;   C- ,'";:?<>|!#$%^&*`~ <tab>
-;;   M- ?#
+;;;_* Global-map:
 
-;;;_* global-map
+;;;_ > Cursor movement
 
 ;; for control-cursor-up key
 (defun pc-keys-scroll-down-one-line ()
@@ -65,6 +47,81 @@
 (bind-key "<M-up>" 'backward-paragraph)
 (bind-key "<M-down>" 'forward-paragraph)
 
+;;;_ > Deleting
+
+;; Ctrl-minus - Delete curr. buffer
+;(bind-key "<C-->" 'kill-this-buffer)
+(global-set-key [?\C--] 'kill-this-buffer)
+
+;;;_  - deleting words
+; Say I have a line and cusor position like below:
+;
+; word1                                 word2 ...
+;         ^
+; After I use delete word, I want to get:
+; word1   word2 ...
+;
+; i.e., only the space between the cursor and word2 is deleted, not with
+; word2. I found it very inconvenient for me what emacs is doing:
+;
+; M-x kill-word: word2 also get killed.
+; word1   ...
+;
+; M-SPC:  space before the cursor get killed
+; word1 word2 ...
+;
+; fixup-whitespace: not quite to the point
+;
+; M-\:  all space get killed
+; word1word2 ...
+
+(defun kill-word-or-whitespace (arg)
+  "Kill characters forward until encountering the end of a word or whitespace.
+With argument, kill that many words."
+  (interactive "*p")
+  (save-excursion
+    (let ((start (point))
+          (next-word-end (progn (forward-word arg) (point)))
+          (next-word-start (progn (backward-word arg) (point))))
+      (kill-region start
+                   (if (if (> arg 0)
+                           (<= next-word-start start)
+                         (>= next-word-start start))
+                       next-word-end
+                       next-word-start)))))
+
+(defun backward-kill-word-or-whitespace (arg)
+"Kill characters backward until reaching the beginning of a word or
+whitespace.  With argument, kill that many words."
+
+  (interactive "*p")
+  (kill-word-or-whitespace (- arg)))
+
+;; Ctrl-t - Delete next word, Brief keybinding
+(bind-key "C-t" 'kill-word-or-whitespace)
+(bind-key "<M-backspace>" 'backward-kill-word-or-whitespace)
+
+;;;_* Personal bindings:
+
+;; Main keymaps for personal bindings are:
+;;
+;;   C-x <letter>  primary map (has many defaults too)
+;;   C-c <letter>  secondary map (not just for mode-specific)
+;;   C-. <letter>  tertiary map
+;;
+;;   M-g <letter>  goto map
+;;   M-s <letter>  search map
+;;   M-o <letter>  outline-minor-mode key map
+;;
+;;   C-<capital letter>
+;;   M-<capital letter>
+;;
+;;   A-<anything>
+;;   M-A-<anything>
+;;
+;; Single-letter bindings still available:
+;;   C- ,'";:?<>|!#$%^&*`~ <tab>
+;;   M- ?#
 
 ;;;_ > C-?
 
