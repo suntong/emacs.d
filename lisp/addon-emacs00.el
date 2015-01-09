@@ -60,8 +60,11 @@
     (scroll-up 1))
   )
 
-(global-set-key [C-up] 'pc-keys-scroll-down-one-line)
-(global-set-key [C-down] 'pc-keys-scroll-up-one-line)
+(bind-key "<C-up>" 'pc-keys-scroll-down-one-line)
+(bind-key "<C-down>" 'pc-keys-scroll-up-one-line)
+(bind-key "<M-up>" 'backward-paragraph)
+(bind-key "<M-down>" 'forward-paragraph)
+
 
 ;;;_ > C-?
 
