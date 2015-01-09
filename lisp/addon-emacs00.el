@@ -229,7 +229,7 @@ whitespace.  With argument, kill that many words."
 
 (define-key key-translation-map (kbd "A-TAB") (kbd "C-TAB"))
 
-;;;_* ctl-x-map
+;;;_* Ctl-x-map
 
 ;;;_ > C-x ?
 
@@ -248,42 +248,93 @@ whitespace.  With argument, kill that many words."
 
 (bind-key "C-x M-n" 'set-goal-column)
 
-(defun refill-paragraph (arg)
-  (interactive "*P")
-  (let ((fun (if (memq major-mode '(c-mode c++-mode))
-                 'c-fill-paragraph
-               (or fill-paragraph-function
-                   'fill-paragraph)))
-        (width (if (numberp arg) arg))
-        prefix beg end)
-    (forward-paragraph 1)
-    (setq end (copy-marker (- (point) 2)))
-    (forward-line -1)
-    (let ((b (point)))
-      (skip-chars-forward "^A-Za-z0-9`'\"(")
-      (setq prefix (buffer-substring-no-properties b (point))))
-    (backward-paragraph 1)
-    (if (eolp)
-        (forward-char))
-    (setq beg (point-marker))
-    (delete-horizontal-space)
-    (while (< (point) end)
-      (delete-indentation 1)
-      (end-of-line))
-    (let ((fill-column (or width fill-column))
-          (fill-prefix prefix))
-      (if prefix
-          (setq fill-column
-                (- fill-column (* 2 (length prefix)))))
-      (funcall fun nil)
-      (goto-char beg)
-      (insert prefix)
-      (funcall fun nil))
-    (goto-char (+ end 2))))
+;;;_  - refill-paragraph
+;; (defun refill-paragraph (arg)
+;;   (interactive "*P")
+;;   (let ((fun (if (memq major-mode '(c-mode c++-mode))
+;;                  'c-fill-paragraph
+;;                (or fill-paragraph-function
+;;                    'fill-paragraph)))
+;;         (width (if (numberp arg) arg))
+;;         prefix beg end)
+;;     (forward-paragraph 1)
+;;     (setq end (copy-marker (- (point) 2)))
+;;     (forward-line -1)
+;;     (let ((b (point)))
+;;       (skip-chars-forward "^A-Za-z0-9`'\"(")
+;;       (setq prefix (buffer-substring-no-properties b (point))))
+;;     (backward-paragraph 1)
+;;     (if (eolp)
+;;         (forward-char))
+;;     (setq beg (point-marker))
+;;     (delete-horizontal-space)
+;;     (while (< (point) end)
+;;       (delete-indentation 1)
+;;       (end-of-line))
+;;     (let ((fill-column (or width fill-column))
+;;           (fill-prefix prefix))
+;;       (if prefix
+;;           (setq fill-column
+;;                 (- fill-column (* 2 (length prefix)))))
+;;       (funcall fun nil)
+;;       (goto-char beg)
+;;       (insert prefix)
+;;       (funcall fun nil))
+;;     (goto-char (+ end 2))))
 
-(bind-key "C-x M-q" 'refill-paragraph)
+;;;_  - quoting
+(defvar quote-string "> "
+  "String used for paragraph quoting:
+`quote-region', which mapped to \\[quote-region], and,
+`quote-reformat', which mapped to \\[quote-reformat] .")
 
-;;;_* mode-specific-map
+;; (defun quote-reformat ()
+;;   "Reformat a paragraph of indented quotation,
+;;    using the variable `quote-string'."
+;;   (interactive)
+;;   (beginning-of-line 1)
+;;   (if (looking-at "\n")
+;;       (forward-line 1))
+;;   (let ((bofp (point)))
+;;     (skip-chars-forward quote-string)
+;;     (let ((fill-prefix (buffer-substring bofp (point))))
+;;       (fill-paragraph nil))))
+
+;; quote-region-pre, quote a region as previous content
+(defun quote-region-pre(b e)
+  "Quote the mouse selected *lines* using the variable `quote-string'"
+  (interactive "r")
+  (forward-line -1)
+  (setq e1 (point))
+  (forward-line)
+  (string-rectangle b e1 quote-string)
+  )
+
+;; quote-region-3rdp, quote a region as third-party content
+(defun quote-region-3rdp(b e)
+  "Quote the mouse selected *lines*"
+  (interactive "r")
+  (forward-line -1)
+  (setq e1 (point))
+  (forward-line)
+  (insert "`-----\n")
+  (string-rectangle b e1 "| ")
+  (goto-char b)
+  (insert ",-----\n")
+  (goto-char e)
+  (forward-line 2)
+  )
+
+;; (bind-key "C-x M-q" 'refill-paragraph)
+;; (bind-key "C-x C-r" 'quote-reformat)
+;; -- fill-paragraph is good enough
+(bind-key "C-x C-b" 'fill-paragraph)
+
+(bind-key "C-x M-]" 'quote-region-pre)
+(bind-key "C-x M-[" 'quote-region-3rdp)
+
+
+;;;_* Mode-specific-map
 
 ;;;_ > C-c ?
 
@@ -451,7 +502,7 @@ then a space, then the current time according to the variable
       (unfill-paragraph 1)
       (forward-paragraph))))
 
-;;;_* ctl-period-map
+;;;_* Ctl-period-map
 
 ;;;_ > C-. ?
 
@@ -488,7 +539,7 @@ then a space, then the current time according to the variable
 (bind-key "M-o M-o f" 'outline-forward-same-level)        ; Forward - same level
 (bind-key "M-o M-o b" 'outline-backward-same-level)       ; Backward - same level
 
-;;;_* help-map
+;;;_* Help-map
 
 (defvar lisp-find-map)
 (define-prefix-command 'lisp-find-map)
