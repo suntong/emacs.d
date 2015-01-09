@@ -329,6 +329,7 @@ whitespace.  With argument, kill that many words."
 ;; (bind-key "C-x C-r" 'quote-reformat)
 ;; -- fill-paragraph is good enough
 (bind-key "C-x C-b" 'fill-paragraph)
+(bind-key "C-x M-q" 'unfill-paragraph)
 
 (bind-key "C-x M-]" 'quote-region-pre)
 (bind-key "C-x M-[" 'quote-region-3rdp)
@@ -489,9 +490,11 @@ then a space, then the current time according to the variable
       (save-excursion
         (goto-char beg)
         (while (re-search-forward "[^.;!?:]\\([ \t][ \t]+\\)" end t)
-          (replace-match " " nil nil nil 1))))))
+          (replace-match " " nil nil nil 1)))))
+  (forward-paragraph)			; to blank line
+  (forward-line)			; to next paragraph
+  )
 
-(bind-key "C-c M-q" 'unfill-paragraph)
 
 (defun unfill-region (beg end)
   (interactive "r")
