@@ -44,6 +44,25 @@
 
 ;;;_* global-map
 
+;; for control-cursor-up key
+(defun pc-keys-scroll-down-one-line ()
+  "Scrolls the visible part of the buffer one line down."
+  (interactive)
+  (let ((scroll-in-place nil))
+    (scroll-down 1))
+  )
+
+;; for control-cursor-down key
+(defun pc-keys-scroll-up-one-line ()
+  "Scrolls the visible part of the buffer one line up."
+  (interactive)
+  (let ((scroll-in-place nil))
+    (scroll-up 1))
+  )
+
+(global-set-key [C-up] 'pc-keys-scroll-down-one-line)
+(global-set-key [C-down] 'pc-keys-scroll-up-one-line)
+
 ;;;_ > C-?
 
 (defvar ctl-period-map)
