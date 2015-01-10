@@ -190,6 +190,11 @@
   :config
   (define-key flyspell-mode-map [(control ?.)] nil))
 
+;;;_* generic-x
+(require 'generic-x)
+;; It will add syntax highlighting for batch files, ini files, command files, 
+;; registry files, apache files, samba files, resource files, fvwm files, etc.
+
 ;;;_* grep
 (use-package grep
   :bind (("M-s d" . find-grep-dired)
