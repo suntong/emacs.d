@@ -69,6 +69,14 @@
 (define-key  read-expression-map [up]		    'previous-history-element)
 (define-key  read-expression-map [down]		    'next-history-element)
 
+;;;_ > comment-region
+
+;; to comment/quote a region, just does comment-region
+;; (bound, perhaps by default, to M-#). This means also that
+;; * unquoting        == C-u M-#
+;; * quote to level=n == C-u n M-#
+(bind-key "M-#" 'comment-region)
+
 ;;;_ > Deleting
 
 ;; Ctrl-minus - Delete curr. buffer
