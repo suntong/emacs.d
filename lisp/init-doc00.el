@@ -13,7 +13,19 @@
 
 ;;;_* markdown-mode
 (use-package markdown-mode
-  :mode ("\\.\\(txt\\|markdown\\|md\\)\\'" . markdown-mode))
+  :mode ("\\.\\(txt\\|markdown\\|md\\)\\'" . gfm-mode))
+
+;; A [GitHub Flavored Markdown] (GFM) mode, `gfm-mode', is also
+;; available as part of markdown-mode. The most important differences
+;; are:
+;;
+;; - GFM code blocks, with optional programming language keywords,
+;;   will be highlighted. This is most important to me as the default
+;;   markdown-mode will not highlight them.
+;;
+;; - Underscores inside of words (such as test_variable) will not
+;;   trigger emphasis.
+
 
 ;;;_ > markdown-toc
 (use-package markdown-toc
