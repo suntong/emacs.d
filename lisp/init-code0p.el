@@ -461,6 +461,15 @@
                               '(("(bash)Index")))))
     (add-hook 'shell-mode-hook 'initialize-sh-script))  )
 
+;; shell-mode indentation
+(setq sh-basic-offset 2)
+(setq sh-indent-for-case-label 0)
+(setq sh-indent-for-case-alt 2)
+(setq sh-indent-for-continuation 2)
+(setq sh-indent-for-done 0)
+;(setq sh-indent-after-open 2)
+;(setq sh-indent-after-loop-construct 2)
+(setq sh-indent-comment t)
 
 ;;;; apropos
 (setq ;; apropos.el
