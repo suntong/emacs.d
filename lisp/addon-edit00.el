@@ -31,6 +31,7 @@
 
 ;;;_* Extra Addons
 (load-library "addon-edit00-brief") 
+(load-library "addon-edit00-folding")
 
 
 ;;;_* End
