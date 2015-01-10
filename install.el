@@ -13,6 +13,9 @@
 ;; Use "Evaluate Buffer" to do the installation, or include it in
 ;; init.el so as to check & install everytime emacs starts.
 
+;; Select & evaluate the following code to show the list of packages:
+;; (list-packages)
+
 ;;; Code:
 
 ;;----------------------------------------------------------------------------
