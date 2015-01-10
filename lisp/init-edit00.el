@@ -441,6 +441,13 @@
          ("C-c l" . undo-tree-switch-branch)
          ("C-c '" . undo-tree-visualize)) )
 
+;;;_* visual-line-mode
+;; The problem with visual-line mode is that by default, there are no
+;; indicators showing where the line is wrapped. To fix this,
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+;; You need to put the assignment before the global-visual-line-mode call
+;; From Daniel Neal, http://stackoverflow.com/questions/18268741/
+
 ;;;_* wrap-region
 (use-package wrap-region
   :commands wrap-region-mode
