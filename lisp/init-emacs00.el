@@ -35,6 +35,13 @@
 ;; show column number of the cusor
 (column-number-mode 1)
 
+;; unidiff-formatted differences
+(setq diff-switches "-ubBwd")
+
+;; Pull current X selection into search string, from Mouse-2.
+(define-key isearch-mode-map [down-mouse-2] nil)
+(define-key isearch-mode-map [mouse-2] 'isearch-yank-x-selection)
+
 ;;;; Be silent about successful auto saving
 (defadvice do-auto-save (around do-auto-save-silent activate)
   (ad-set-arg 0 t)
