@@ -21,6 +21,14 @@
 
 ;;;_* Keybindings
 (require 'bind-key)
+;; After Emacs loads, you can see a summary of all your personal keybindings
+;; currently in effect with this command:
+;;
+;;   M-x describe-personal-keybindings
+;;
+;; This display will tell you if you've overriden a default keybinding, and
+;; what the default was.  Also, it will tell you if the key was rebound after
+;; your binding it with `bind-key', and what it was rebound it to.
 
 ;;;_* Global-map:
 
@@ -205,20 +213,6 @@ whitespace.  With argument, kill that many words."
 
 (bind-key "<C-M-backspace>" 'backward-kill-sexp)
 
-(defun isearch-backward-other-window ()
-  (interactive)
-  (split-window-vertically)
-  (call-interactively 'isearch-backward))
-
-(bind-key "C-M-r" 'isearch-backward-other-window)
-
-(defun isearch-forward-other-window ()
-  (interactive)
-  (split-window-vertically)
-  (call-interactively 'isearch-forward))
-
-(bind-key "C-M-s" 'isearch-forward-other-window)
-
 ;; Some further isearch bindings
 (bind-key "C-c" 'isearch-toggle-case-fold isearch-mode-map)
 (bind-key "C-t" 'isearch-toggle-regexp isearch-mode-map)
@@ -241,64 +235,18 @@ whitespace.  With argument, kill that many words."
 ;;;_ > C-x C-?
 
 (bind-key "C-x C-e" 'pp-eval-last-sexp)
-(bind-key "C-x C-n" 'next-line)
 
 
 ;;;_ > C-x M-?
 
 (bind-key "C-x M-n" 'set-goal-column)
 
-;;;_  - refill-paragraph
-;; (defun refill-paragraph (arg)
-;;   (interactive "*P")
-;;   (let ((fun (if (memq major-mode '(c-mode c++-mode))
-;;                  'c-fill-paragraph
-;;                (or fill-paragraph-function
-;;                    'fill-paragraph)))
-;;         (width (if (numberp arg) arg))
-;;         prefix beg end)
-;;     (forward-paragraph 1)
-;;     (setq end (copy-marker (- (point) 2)))
-;;     (forward-line -1)
-;;     (let ((b (point)))
-;;       (skip-chars-forward "^A-Za-z0-9`'\"(")
-;;       (setq prefix (buffer-substring-no-properties b (point))))
-;;     (backward-paragraph 1)
-;;     (if (eolp)
-;;         (forward-char))
-;;     (setq beg (point-marker))
-;;     (delete-horizontal-space)
-;;     (while (< (point) end)
-;;       (delete-indentation 1)
-;;       (end-of-line))
-;;     (let ((fill-column (or width fill-column))
-;;           (fill-prefix prefix))
-;;       (if prefix
-;;           (setq fill-column
-;;                 (- fill-column (* 2 (length prefix)))))
-;;       (funcall fun nil)
-;;       (goto-char beg)
-;;       (insert prefix)
-;;       (funcall fun nil))
-;;     (goto-char (+ end 2))))
 
 ;;;_  - quoting
 (defvar quote-string "> "
   "String used for paragraph quoting:
 `quote-region', which mapped to \\[quote-region], and,
 `quote-reformat', which mapped to \\[quote-reformat] .")
-
-;; (defun quote-reformat ()
-;;   "Reformat a paragraph of indented quotation,
-;;    using the variable `quote-string'."
-;;   (interactive)
-;;   (beginning-of-line 1)
-;;   (if (looking-at "\n")
-;;       (forward-line 1))
-;;   (let ((bofp (point)))
-;;     (skip-chars-forward quote-string)
-;;     (let ((fill-prefix (buffer-substring bofp (point))))
-;;       (fill-paragraph nil))))
 
 ;; quote-region-pre, quote a region as previous content
 (defun quote-region-pre(b e)
@@ -325,21 +273,18 @@ whitespace.  With argument, kill that many words."
   (forward-line 2)
   )
 
-;; (bind-key "C-x M-q" 'refill-paragraph)
-;; (bind-key "C-x C-r" 'quote-reformat)
-;; -- fill-paragraph is good enough
-(bind-key "C-x C-b" 'fill-paragraph)
-(bind-key "C-x M-q" 'unfill-paragraph)
-
-(bind-key "C-x M-]" 'quote-region-pre)
-(bind-key "C-x M-[" 'quote-region-3rdp)
-
-;; from addon-edit00.el
-(bind-key "C-x M-p" 'sa-pad-line-ending)
-
 ;;;_* Mode-specific-map
 
 ;;;_ > C-c ?
+
+(bind-key "C-c C-b" 'fill-paragraph)
+(bind-key "C-c M-q" 'unfill-paragraph)
+
+(bind-key "C-c M-]" 'quote-region-pre)
+(bind-key "C-c M-[" 'quote-region-3rdp)
+
+;; from addon-edit00.el
+(bind-key "C-c M-p" 'sa-pad-line-ending)
 
 (bind-key "C-c <tab>" 'ff-find-other-file)
 (bind-key "C-c SPC" 'just-one-space)

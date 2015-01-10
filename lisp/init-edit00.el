@@ -66,7 +66,7 @@
                          (quote ,(cdr mapping))
                          allout-mode-map)))
 
-      (setq allout-command-prefix (kbd "C-c C-c"))
+      (setq allout-command-prefix (kbd "C-c C-v"))
       )
 
     (defvar my-allout-font-lock-keywords
