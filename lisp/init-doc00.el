@@ -13,7 +13,7 @@
 
 ;;;_* markdown-mode
 (use-package markdown-mode
-  :mode ("\\.\\(txt\\|markdown\\|md\\)\\'" . gfm-mode)
+  :mode ("\\.\\(txt\\|markdown\\|md\\)\\(\\'\\|\\.\\)" . gfm-mode)
   ;; A [GitHub Flavored Markdown] (GFM) mode, `gfm-mode', is also
   ;; available as part of markdown-mode. The most important differences
   ;; are:
@@ -33,7 +33,11 @@
     ;; It will compute the TOC at insert it at current position, but
     ;; work only for github since those toc anchors are not inserted
     ;; by default anywhere else.
-    ))
+    )
+  :config  ; runs after the mode is loaded
+  (progn (add-hook 'markdown-mode-hook 'flyspell-mode))
+  )
+
 
 ;;;_* others
 (load-library "init-doc00-doc-mode") 

@@ -100,11 +100,9 @@
 ;; by creating a global version of the minor mode
 (defun my-turn-on-allout-mode-maybe ()
   "Enable `allout-mode', where applicable."
-  ;; Unconditional here, but edit as desired if it turns out
-  ;; that you don't actually want this for ALL modes.
-  ;; (This function is called in every buffer, when the
-  ;; global mode is enabled.)
-  (allout-mode 1))
+  ;; (This function is called in every buffer, when the global mode is enabled.)
+  (unless (memq major-mode '(markdown-mode gfm-mode))
+  (allout-mode 1)))
 
 (define-globalized-minor-mode my-global-allout-mode allout-mode
   my-turn-on-allout-mode-maybe
