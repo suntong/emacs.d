@@ -454,6 +454,6 @@
 
 
 ;;;_* others
-;(load-library "init-edit01-yasnippet") 
+;(load-library "init-edit01_yasnippet") 
 
 ;; End:

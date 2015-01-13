@@ -40,6 +40,6 @@
 
 
 ;;;_* others
-(load-library "init-doc00-doc-mode") 
+(load-library "init-doc00_doc-mode") 
 
 ;;;_* End
