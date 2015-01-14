@@ -11,8 +11,4 @@
 ;;; Code:
 
 
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;\\([*]+\\)"
 ;; End:

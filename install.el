@@ -27,7 +27,11 @@
 (when (not package-archive-contents)
    (package-refresh-contents))
 (defvar myown/packages
-   '(undo-tree markdown-mode markdown-toc))
+  '(undo-tree
+    auto-complete
+    markdown-mode markdown-toc
+    go-autocomplete go-eldoc go-mode
+    ))
 (dolist (p myown/packages)
    (when (not (package-installed-p p))
      (package-install p)))

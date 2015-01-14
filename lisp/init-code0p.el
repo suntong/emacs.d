@@ -11,14 +11,13 @@
 
 ;;; Code:
 
-;;;_ , diff-mode
+;;;_* diff-mode
 
 (use-package diff-mode
   :commands diff-mode
-  :config
-  (use-package diff-mode-))
+  )
 
-;;;_ , ediff
+;;;_* ediff
 
 (use-package ediff
   :pre-init
@@ -43,7 +42,7 @@
   (use-package ediff-keep))
 
 
-;;;_ , cc-mode
+;;;_* cc-mode
 
 (use-package cc-mode
   :mode (("\\.h\\(h?\\|xx\\|pp\\)\\'" . c++-mode)
@@ -370,7 +369,7 @@
             (insert comment)))
         (goto-char here)))))
 
-;;;_ , cperl-mode
+;;;_* cperl-mode
 ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
 
 (use-package cperl-mode
@@ -440,7 +439,7 @@
                 (modify-syntax-entry ?_ "w" cperl-mode-syntax-table)))))
 
 
-;;;_ , sh-script
+;;;_* sh-script
 
 (use-package sh-script
   :defer t
@@ -471,19 +470,19 @@
 ;(setq sh-indent-after-loop-construct 2)
 (setq sh-indent-comment t)
 
-;;;; apropos
+;;;_* apropos
 (setq ;; apropos.el
  apropos-do-all t)
 
-;;;; font locking
+;;;_* font locking
 ;; (setq font-lock-global-modes '(not web-mode))
   (setq font-lock-maximum-decoration t)
   ;; (global-font-lock-mode t)
 
+;;;_* further customizations
+(load-library "init-code0p_go")
+;(load-library "init-code3p_lisp")
+;(load-library "init-code3p_python")
+;(load-library "init-code3p_ruby")
 
-
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;\\([*]+\\)"
-;; End:
+;;;_* End:
