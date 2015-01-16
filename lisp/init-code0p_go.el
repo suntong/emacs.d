@@ -54,6 +54,7 @@
       ;; 	))
 
       (bind-key "M-." 'godef-jump go-mode-map))
+    )
   )
 
 ;; End:

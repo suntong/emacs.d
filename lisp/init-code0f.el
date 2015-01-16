@@ -10,16 +10,15 @@
 
 ;;; Code:
 
-;; Adobe Extend Script
+;;;_* html-mode, Adobe Extend Script
 (add-hook 'html-mode-hook #'(lambda nil (setq sgml-mode t)))
 
-;;;_ , css-mode
+;;;_* css-mode
 
 (use-package css-mode
   :mode ("\\.css\\'" . css-mode))
 
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;\\([*]+\\)"
-;; End:
+;;;_* further customizations
+(require 'preseed-generic-mode)
+
+;;;_* end
