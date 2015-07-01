@@ -3,6 +3,9 @@
 ;; Copyright (C) 2015 Tong Sun
 
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
+;; based on
+;; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+;; http://tleyden.github.io/blog/2014/05/27/configure-emacs-as-a-go-editor-from-scratch-part-2/
 
 ;;; Commentary:
 
@@ -28,17 +31,20 @@
 			      (setq indent-tabs-mode nil) ))
     (setq gofmt-command (cond
                          ((executable-find "goimports")
-			  "goimports -tabs=false -tabwidth=2")
-                         (t "gofmt -tabs=false -tabwidth=2")))
+			  "goimports")
+                         (t "gofmt")))
+    ;; Call Gofmt before saving
+    (add-hook 'before-save-hook 'gofmt-before-save)
+
     ;; -- 
     
     ;; (use-package go-stacktracer
     ;;   :commands (go-stacktracer-region))
 
-    (use-package go-eldoc
-      :init
-      (progn
-        (add-hook 'go-mode-hook 'go-eldoc-setup)))
+    ;; (use-package go-eldoc
+    ;;   :init
+    ;;   (progn
+    ;;     (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
     (use-package go-autocomplete
       :pre-load
@@ -53,7 +59,8 @@
       ;;                         ac-source-yasnippet))))
       ;; 	))
 
-      (bind-key "M-." 'godef-jump go-mode-map))
+      ;; (bind-key "M-." 'godef-jump go-mode-map)
+      )
     )
   )
 
