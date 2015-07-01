@@ -1,8 +1,10 @@
+;;; preseed-generic-mode.el --- Debian preseed file major mode
 ;; -*- emacs-lisp -*-
 
 ;; Copyright (C) 2015 Tong Sun
 
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
+;; URL: https://github.com/suntong001/preseed-generic-mode
 
 ;;; Commentary:
 
@@ -40,3 +42,4 @@
 (provide 'preseed-generic-mode)
 
 ;;;_* end
+;;; preseed-generic-mode.el ends here
