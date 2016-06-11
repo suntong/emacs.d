@@ -30,6 +30,7 @@
   '(undo-tree
     auto-complete
     markdown-mode markdown-toc
+    yaml-mode
     go-autocomplete go-eldoc go-mode
     ))
 (dolist (p myown/packages)
