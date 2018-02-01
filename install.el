@@ -31,6 +31,7 @@
     auto-complete
     markdown-mode markdown-toc
     yaml-mode
+    typescript-mode
     go-autocomplete go-eldoc go-mode
     ))
 (dolist (p myown/packages)
