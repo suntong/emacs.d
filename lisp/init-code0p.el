@@ -375,13 +375,20 @@
   :defer t
   :init
   (progn
-    (defun my-javascript-mode-hook ()
-      (setq
-       indent-tabs-mode nil
-       tab-width 2
-       js-indent-level 2
-       ))
-    (add-hook 'javascript-mode-hook 'my-javascript-mode-hook)))
+    (setq
+     js-indent-level 2
+     tab-width 2
+     indent-tabs-mode nil))
+  ;; :config
+  ;; (progn
+  ;;   (defun my-javascript-mode-hook ()
+  ;;     (setq
+  ;;      indent-tabs-mode nil
+  ;;      tab-width 2
+  ;;      js-indent-level 2
+  ;;      ))
+  ;;   (add-hook 'javascript-mode-hook 'my-javascript-mode-hook))
+  )
 
 ;;;_* cperl-mode
 ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
