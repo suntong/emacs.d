@@ -461,6 +461,7 @@
 
 
 ;;;_* sh-script
+;; shell-mode indentation
 
 (use-package sh-script
   :defer t
@@ -468,28 +469,29 @@
   (progn
     (setq ;; sh-mode.el
      sh-basic-offset 2
-     sh-indentation 2))
-  :config
-  (progn
-    (defvar sh-script-initialized nil)
-    (defun initialize-sh-script ()
-      (unless sh-script-initialized
-        (setq sh-script-initialized t)
-        (info-lookup-add-help :mode 'shell-script-mode
-                              :regexp ".*"
-                              :doc-spec
-                              '(("(bash)Index")))))
-    (add-hook 'shell-mode-hook 'initialize-sh-script))  )
+     sh-indentation 2
+     sh-basic-offset 2
+     sh-indent-for-case-label 0
+     sh-indent-for-case-alt 2
+     sh-indent-for-continuation 2
+     sh-indent-for-done 0
+     ;; sh-indent-after-open 2
+     ;; sh-indent-after-loop-construct 2
+     sh-indent-comment t
+     ))
+  ;; :config
+  ;; (progn
+  ;;   (defvar sh-script-initialized nil)
+  ;;   (defun initialize-sh-script ()
+  ;;     (unless sh-script-initialized
+  ;;       (setq sh-script-initialized t)
+  ;;       (info-lookup-add-help :mode 'shell-script-mode
+  ;;                             :regexp ".*"
+  ;;                             :doc-spec
+  ;;                             '(("(bash)Index")))))
+  ;;   (add-hook 'shell-mode-hook 'initialize-sh-script))
+  )
 
-;; shell-mode indentation
-(setq sh-basic-offset 2)
-(setq sh-indent-for-case-label 0)
-(setq sh-indent-for-case-alt 2)
-(setq sh-indent-for-continuation 2)
-(setq sh-indent-for-done 0)
-;(setq sh-indent-after-open 2)
-;(setq sh-indent-after-loop-construct 2)
-(setq sh-indent-comment t)
 
 ;;;_* apropos
 (setq ;; apropos.el
