@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (typescript-mode yaml-mode undo-tree preseed-generic-mode markdown-toc go-eldoc go-autocomplete))))
+    (yaml-mode undo-tree preseed-generic-mode markdown-toc go-eldoc go-autocomplete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

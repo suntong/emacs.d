@@ -426,7 +426,6 @@
 ;; http://www.emacswiki.org/emacs/RedoMode
 (use-package undo-tree
   :init (progn
-    (global-undo-tree-mode 1)
     (setq undo-tree-visualizer-timestamps t)
     (setq undo-tree-visualizer-diff t))
   :bind (("C-c j" . undo-tree-undo)
