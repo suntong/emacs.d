@@ -369,7 +369,8 @@
             (insert comment)))
         (goto-char here)))))
 
-;;;_* js, based on cc-mode
+;;;_* js, built-in, based on cc-mode
+;; JavaScript Major mode
 
 (use-package js
   :defer t
@@ -379,15 +380,6 @@
      js-indent-level 2
      tab-width 2
      indent-tabs-mode nil))
-  ;; :config
-  ;; (progn
-  ;;   (defun my-javascript-mode-hook ()
-  ;;     (setq
-  ;;      indent-tabs-mode nil
-  ;;      tab-width 2
-  ;;      js-indent-level 2
-  ;;      ))
-  ;;   (add-hook 'javascript-mode-hook 'my-javascript-mode-hook))
   )
 
 ;;;_* cperl-mode
@@ -479,17 +471,6 @@
      ;; sh-indent-after-loop-construct 2
      sh-indent-comment t
      ))
-  ;; :config
-  ;; (progn
-  ;;   (defvar sh-script-initialized nil)
-  ;;   (defun initialize-sh-script ()
-  ;;     (unless sh-script-initialized
-  ;;       (setq sh-script-initialized t)
-  ;;       (info-lookup-add-help :mode 'shell-script-mode
-  ;;                             :regexp ".*"
-  ;;                             :doc-spec
-  ;;                             '(("(bash)Index")))))
-  ;;   (add-hook 'shell-mode-hook 'initialize-sh-script))
   )
 
 
