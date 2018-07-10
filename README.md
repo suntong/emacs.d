@@ -14,6 +14,7 @@ To install it,
 
 ```bash
 rm -rf ~/.emacs.d # CAREFUL! Do once and backup first!
+mkdir ~/.emacs.d
 # do this every time when file(s) are newly added/deleted
 [ -d lisp ] && [ -d site-lisp ] && lndir `pwd` ~/.emacs.d && symlinks -rd ~/.emacs.d/
 ```
