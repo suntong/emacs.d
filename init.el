@@ -51,6 +51,9 @@
  )
 ;(menu-bar-mode -1)
 
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
 ;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
@@ -72,13 +75,16 @@
 ;;----------------------------------------------------------------------------
 ;(load-library "") 
 ;;;_** Emacs configuration
+;(load-library "init-font")
 (load-library "addon-emacs00") 
 (load-library "addon-edit00") 
+(message "Emacs configuration done.")
 
 ;;;_** Package configuration
 (load-library "init-edit00") 
 (load-library "init-code00") 
 (load-library "init-doc00") 
+(message "Packages configuration done.")
 
 ;;;_** Not installed through `package.el'
 
