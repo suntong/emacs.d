@@ -1,6 +1,6 @@
 ;; -*- emacs-lisp -*-
 
-;; Copyright (C) 2015 Tong Sun
+;; Copyright (C) 2015-2021 Tong Sun
 
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
 ;; based on
@@ -13,22 +13,17 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'use-package))
+
 (use-package go-mode
   :mode "\\.go\\(\\'\\|\\.\\)"
 
   :config
   (progn
-
-    (defun gopath-set-here ()
-      (interactive)
-      (message (or (buffer-file-name) default-directory))
-      (setenv "GOPATH"
-              (f-expand (or (buffer-file-name) default-directory))))
-
-    ;; -- Use the style of `gofmt -tabs=false -tabwidth=2` to format code
     (add-hook 'go-mode-hook (lambda ()
 			      (setq tab-width 2)
-			      (setq indent-tabs-mode nil) ))
+			      )) ; (setq indent-tabs-mode nil)
     (setq gofmt-command (cond
                          ((executable-find "goimports")
 			  "goimports")
@@ -36,7 +31,7 @@
     ;; Call Gofmt before saving
     (add-hook 'before-save-hook 'gofmt-before-save)
 
-    ;; -- 
+    ;; --
     
     ;; (use-package go-stacktracer
     ;;   :commands (go-stacktracer-region))
@@ -47,7 +42,7 @@
     ;;     (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
     (use-package go-autocomplete
-      :pre-load
+      :init
       (progn
         (use-package auto-complete))
       ;; :init

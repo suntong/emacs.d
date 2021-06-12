@@ -1,6 +1,6 @@
 ;; -*- emacs-lisp -*-
 
-;; Copyright (C) 2015 Tong Sun
+;; Copyright (C) 2015-2021 Tong Sun
 
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
 
@@ -11,16 +11,19 @@
 
 ;;; Code:
 
-;;;_* diff-mode
+(eval-when-compile
+  (require 'use-package))
 
+;;;_* diff-mode
 (use-package diff-mode
+  :defer t
   :commands diff-mode
   )
 
 ;;;_* ediff
-
 (use-package ediff
-  :pre-init
+  :defer t
+  :init
   (progn
     (defvar ctl-period-equals-map)
     (define-prefix-command 'ctl-period-equals-map)
@@ -45,6 +48,7 @@
 ;;;_* cc-mode
 
 (use-package cc-mode
+  :defer t
   :mode (("\\.h\\(h?\\|xx\\|pp\\)\\'" . c++-mode)
          ("\\.m\\'"                   . c-mode)
          ("\\.mm\\'"                  . c++-mode))
@@ -386,6 +390,7 @@
 ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
 
 (use-package cperl-mode
+  :defer t
   :commands cperl-mode
   :mode ("\\.p[lm]$" . cperl-mode)
   :init

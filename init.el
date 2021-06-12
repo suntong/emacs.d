@@ -1,9 +1,9 @@
 ;;; init.el --- emacs init file
 
-;; Copyright (C) 2015 Tong Sun
+;; Copyright (C) 2015-2021 Tong Sun
 
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
-;; Based on: 
+;; Based on:
 ;;  https://github.com/purcell/emacs.d/blob/master/init.el
 ;;  https://github.com/svenax/dotfiles/blob/master/emacs/emacs.d/init.el
 ;;  https://github.com/jwiegley/dot-emacs/blob/master/init.el
@@ -15,13 +15,13 @@
 ;; init-file into manageable building blocks.
 
 ;; This is for my entire Emacs configuration, except for some small use of
-;; custom.el. It depends heavily on `use-package' by John Wiegley.
+;; custom.el.  It depends heavily on `use-package' by John Wiegley.
 
 ;; Components:
-;; - addon-emacs00, to extend emacs 
-;; - addon-edit00, to extend emacs editing features
-;; - init-code00, for init all programing code. 
-;;   + init-code0p, programming. Others can be put into code1p, code2p, etc.
+;; - addon-emacs00, to extend Emacs
+;; - addon-edit00, to extend Emacs editing features
+;; - init-code00, for init all programing code.
+;;   + init-code0p, programming.  Others can be put into code1p, code2p, etc.
 ;;   + init-code0f, file types, html/css, etc
 ;;   + init-code0s, misc
 ;; - init-doc00, for init all text doc handling, adoc, md etc.
@@ -29,7 +29,6 @@
 ;;; Code:
 
 ;;;_* Startup
-
 
 (defconst emacs-start-time (current-time))
 
@@ -48,6 +47,12 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
+;;;; use-package
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+(eval-when-compile
+  (require 'use-package))
+
 ;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
@@ -55,8 +60,7 @@
 (load (expand-file-name
          "load-path" (file-name-directory load-file-name)) nil t)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(load-library "init-emacs00") 
-(load-library "init-use-package")
+(load-library "init-emacs00")
 
 ;;----------------------------------------------------------------------------
 ;; Allow users to provide an optional "init-preload-local.el"
@@ -67,17 +71,17 @@
 ;;----------------------------------------------------------------------------
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
-;(load-library "") 
+;(load-library "")
 ;;;_** Emacs configuration
 ;(load-library "init-font")
-(load-library "addon-emacs00") 
-(load-library "addon-edit00") 
+(load-library "addon-emacs00")
+(load-library "addon-edit00")
 (message "Emacs configuration done.")
 
 ;;;_** Package configuration
-(load-library "init-edit00") 
-(load-library "init-code00") 
-(load-library "init-doc00") 
+(load-library "init-edit00")
+(load-library "init-code00")
+(load-library "init-doc00")
 (message "Packages configuration done.")
 
 ;;;_** Not installed through `package.el'
