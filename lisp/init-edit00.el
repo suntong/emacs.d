@@ -1,6 +1,6 @@
 ;; -*- emacs-lisp -*-
 
-;; Copyright (C) 2015 Tong Sun
+;; Copyright (C) 2015-2021 Tong Sun
 
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
 
@@ -11,8 +11,12 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'use-package))
+
 ;;;_* abbrev
 (use-package abbrev
+  :defer t
   :disabled t
   :commands abbrev-mode
   :diminish abbrev-mode
@@ -47,6 +51,7 @@
 ;; t allout-toggle-current-subtree-exposure
 
 (use-package allout
+  :defer t
   :config
   (progn
     (defvar allout-unprefixed-keybindings nil)
@@ -113,6 +118,7 @@
 
 ;;;_* auto-complete
 (use-package auto-complete-config
+  :defer t
   :disabled t
   :diminish auto-complete-mode
   :init
@@ -131,6 +137,7 @@
 
 ;;;_* autopair
 (use-package autopair
+  :defer t
   :disabled t
   :commands autopair-mode
   :diminish autopair-mode
@@ -143,6 +150,7 @@
 
 ;;;_* autorevert
 (use-package autorevert
+  :defer t
   :commands auto-revert-mode
   :diminish auto-revert-mode
   :init
@@ -152,30 +160,15 @@
 
 ;;;_* flycheck
 (use-package flycheck
+  :defer t
+  :ensure t
   :config
   (defalias 'flycheck-show-error-at-point-soon 'flycheck-show-error-at-point)
-  :init
-  (progn
-    (flycheck-define-checker clang++-ledger
-      "Clang++ checker for Ledger"
-      :command
-      '("clang++" "-Wall" "-fsyntax-only"
-        "-I/Users/johnw/Products/ledger/debug" "-I../lib"
-        "-I../lib/utfcpp/source"
-        "-I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7"
-        "-include" "system.hh" "-c" source-inplace)
-      :error-patterns
-      '(("^\\(?1:.*\\):\\(?2:[0-9]+\\):\\(?3:[0-9]+\\): warning:\\s-*\\(?4:.*\\)"
-         warning)
-        ("^\\(?1:.*\\):\\(?2:[0-9]+\\):\\(?3:[0-9]+\\): error:\\s-*\\(?4:.*\\)"
-         error))
-      :modes 'c++-mode
-      :predicate '(string-match "/ledger/" (buffer-file-name)))
-
-    (push 'clang++-ledger flycheck-checkers)))
+  :init (global-flycheck-mode))
 
 ;;;_* flyspell
 (use-package ispell
+  :defer t
   :bind (("C-c i c" . ispell-comments-and-strings)
          ("C-c i d" . ispell-change-dictionary)
          ("C-c i k" . ispell-kill-ispell)
@@ -183,6 +176,7 @@
          ("C-c i r" . ispell-region)))
 
 (use-package flyspell
+  :defer t
   :bind (("C-c i b" . flyspell-buffer)
          ("C-c i f" . flyspell-mode))
   :config
@@ -195,6 +189,7 @@
 
 ;;;_* grep
 (use-package grep
+  :defer t
   :bind (("M-s d" . find-grep-dired)
          ("M-s f" . find-grep)
          ("M-s g" . grep))
@@ -233,92 +228,21 @@
 
 ;;;_* hi-lock
 (use-package hi-lock
+  :defer t
   :bind (("M-o l" . highlight-lines-matching-regexp)
          ("M-o r" . highlight-regexp)
          ("M-o w" . highlight-phrase)))
 
 
-;;;_* ido
-(use-package ido
-  :defines (ido-cur-item
-            ido-require-match
-            ido-selected
-            ido-final-text
-            ido-show-confirm-message)
-  :init
-  (ido-mode 'buffer)
-
-  :config
-  (progn
-    (use-package ido-hacks
-      :init
-      (ido-hacks-mode 1))
-
-    (use-package ido-springboard)
-
-    (defun ido-smart-select-text ()
-      "Select the current completed item.  Do NOT descend into directories."
-      (interactive)
-      (when (and (or (not ido-require-match)
-                     (if (memq ido-require-match
-                               '(confirm confirm-after-completion))
-                         (if (or (eq ido-cur-item 'dir)
-                                 (eq last-command this-command))
-                             t
-                           (setq ido-show-confirm-message t)
-                           nil))
-                     (ido-existing-item-p))
-                 (not ido-incomplete-regexp))
-        (when ido-current-directory
-          (setq ido-exit 'takeprompt)
-          (unless (and ido-text (= 0 (length ido-text)))
-            (let ((match (ido-name (car ido-matches))))
-              (throw 'ido
-                     (setq ido-selected
-                           (if match
-                               (replace-regexp-in-string "/\\'" "" match)
-                             ido-text)
-                           ido-text ido-selected
-                           ido-final-text ido-text)))))
-        (exit-minibuffer)))
-
-    (add-hook 'ido-minibuffer-setup-hook
-              #'(lambda ()
-                  (bind-key "<return>" 'ido-smart-select-text
-                            ido-file-completion-map)))
-
-    (defun ido-switch-buffer-tiny-frame (buffer)
-      (interactive (list (ido-read-buffer "Buffer: " nil t)))
-      (with-selected-frame
-          (make-frame '((width                . 80)
-                        (height               . 22)
-                        (left-fringe          . 0)
-                        (right-fringe         . 0)
-                        (vertical-scroll-bars . nil)
-                        (unsplittable         . t)
-                        (has-modeline-p       . nil)
-                        ;;(background-color     . "grey80")
-                        (minibuffer           . nil)))
-        (switch-to-buffer buffer)
-        (set (make-local-variable 'mode-line-format) nil)))
-
-    (bind-key "C-x 5 t" 'ido-switch-buffer-tiny-frame)))
-
-;;;_* paren
-(unless (use-package mic-paren
-          :init
-          (paren-activate))
-  (use-package paren
-    :init
-    (show-paren-mode 1)))
-
 ;;;_* popup-ruler
 (use-package popup-ruler
+  :defer t
   :bind (("C-. r" . popup-ruler)
          ("C-. R" . popup-ruler-vertical)))
 
 ;;;_* recentf
 (use-package recentf
+  :defer t
   :if (not noninteractive)
   :init
   (progn
@@ -370,7 +294,7 @@
 (use-package session
   :if (not noninteractive)
   :load-path "site-lisp/session/lisp/"
-  :init
+  :config
   (progn
     (session-initialize)
     (defun remove-session-use-package-from-settings ()
@@ -419,15 +343,19 @@
 
 ;;;_* smartparens
 (use-package smartparens
+  :defer t
   :commands (smartparens-mode show-smartparens-mode)
   :config (require 'smartparens-config))
 
 ;;;_* undo-tree
 ;; http://www.emacswiki.org/emacs/RedoMode
 (use-package undo-tree
+  :defer t
   :init (progn
     (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-diff t))
+    (setq undo-tree-visualizer-diff t)
+    (global-undo-tree-mode)
+    )
   :bind (("C-c j" . undo-tree-undo)
          ("C-c k" . undo-tree-redo)
          ("C-c l" . undo-tree-switch-branch)
@@ -442,6 +370,7 @@
 
 ;;;_* wrap-region
 (use-package wrap-region
+  :defer t
   :commands wrap-region-mode
   :diminish wrap-region-mode
   :config
