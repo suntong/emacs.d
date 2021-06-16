@@ -71,6 +71,81 @@
 ;;----------------------------------------------------------------------------
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
+;; Bootstrap config
+(setq rr-initialization-errors nil)
+(require 'init-bootstrap)
+(defvar init-files
+  '(
+    ;; Appearance
+    ;init-locales
+    ;;----------------------------------------------------------------------------
+    ;; Load configs for specific features and modes
+    ;;----------------------------------------------------------------------------
+    ;; init-smartparens
+    ;; init-yasnippet
+    ;; init-hippie-expand
+    ;; init-bookmarks
+    ;; init-helm
+    ;; init-eshell
+    ;; init-dired
+    ;; init-git
+    ;; init-ido
+    ;; init-ibuffer
+    ;; init-search
+    ;; init-guidekey
+    ;; init-flycheck
+
+    ;; init-packages
+
+    ;; init-defuns
+    ;; init-coding
+
+    ;; init-bindings
+    ;; init-misc
+    ;; init-compile
+    addon-edit00_folding
+
+    ;; specific programming modes modes
+    ;; init-csv
+    ;; init-ess
+    ;; init-haskell
+    ;; init-latex
+    ;; init-reftex
+    ;; init-lisp
+    ;; init-markdown
+    ;; init-python
+    ;; init-stan
+    ;; init-org
+    ;; init-org-templates
+    ;; init-scala
+    ;; init-sql
+    ;; init-css
+    ;; init-javascript
+    ;; init-html
+    ;; init-hadoop
+    ;; init-devops
+    ;; init-crontab
+    ;; init-docker
+    ;; init-http
+
+    ;; company mode
+    ;; init-company
+
+
+    ;; ;; diminish mode line
+    ;; init-diminish
+
+    ;; ;; Bindings
+    ;; init-bindings
+    ;; init-hydra
+
+    ;; ;; Mode mappings
+    ;; init-mode-mapping
+    ))
+
+(rr-safe-load-init-files)
+
+
 ;(load-library "")
 ;;;_** Emacs configuration
 ;(load-library "init-font")

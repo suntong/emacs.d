@@ -32,6 +32,7 @@
     markdown-mode markdown-toc
     yaml-mode
     go-autocomplete go-eldoc go-mode
+    dash s ;; for origami
     ))
 (dolist (p myown/packages)
    (when (not (package-installed-p p))
