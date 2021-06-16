@@ -291,44 +291,34 @@
 ;; From PythonNut, http://emacs.stackexchange.com/questions/7244/
 
 ;;;_* session
+;; https://github.com/ronert/.emacs.d/blob/master/lisp/init-sessions.el#L29
 (use-package session
-  :if (not noninteractive)
-  :load-path "site-lisp/session/lisp/"
+  :ensure t
+  ;:pin melpa-stable
   :config
   (progn
-    (session-initialize)
-    (defun remove-session-use-package-from-settings ()
-      (when (string= (file-name-nondirectory (buffer-file-name)) "settings.el")
-        (save-excursion
-          (goto-char (point-min))
-          (when (re-search-forward "^ '(session-use-package " nil t)
-            (delete-region (line-beginning-position)
-                           (1+ (line-end-position)))))))
-    (add-hook 'before-save-hook 'remove-session-use-package-from-settings)
-    ;; expanded folded secitons as required
-    (defun le::maybe-reveal ()
-      (when (and (or (memq major-mode  '(org-mode outline-mode))
-                     (and (boundp 'outline-minor-mode)
-                          outline-minor-mode))
-                 (outline-invisible-p))
-        (if (eq major-mode 'org-mode)
-            (org-reveal)
-          (show-subtree))))
-    (add-hook 'session-after-jump-to-last-change-hook
-              'le::maybe-reveal)
-    (defun save-information ()
-      (with-temp-message "Saving Emacs information..."
-        (recentf-cleanup)
-        (loop for func in kill-emacs-hook
-              unless (memq func '(exit-gnus-on-exit server-force-stop))
-              do (funcall func))
-        (unless (or noninteractive
-                    running-alternate-emacs
-                    (eq 'listen (process-status server-process)))
-          (server-start))))
-    (run-with-idle-timer 300 t 'save-information)
-    (if window-system
-        (add-hook 'after-init-hook 'session-initialize t))))
+    (setq session-save-file (expand-file-name "~/.emacs.d/.session"))
+    (add-hook 'after-init-hook 'session-initialize)
+
+    ;; save a bunch of variables to the desktop file
+    ;; for lists specify the len of the maximal saved data also
+    (setq desktop-globals-to-save
+          (append '((extended-command-history . 30)
+                    (file-name-history        . 100)
+                    (grep-history             . 30)
+                    (compile-history          . 30)
+                    (minibuffer-history       . 50)
+                    (query-replace-history    . 60)
+                    (read-expression-history  . 60)
+                    (regexp-history           . 60)
+                    (regexp-search-ring       . 20)
+                    (search-ring              . 20)
+                    (comint-input-ring        . 50)
+                    (shell-command-history    . 50)
+                    desktop-missing-file-warning
+                    tags-file-name
+                    register-alist)))
+    ))
 
 
 ;;;_* show-paren-mode
