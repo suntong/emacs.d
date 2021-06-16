@@ -187,45 +187,6 @@
 ;; It will add syntax highlighting for batch files, ini files, command files, 
 ;; registry files, apache files, samba files, resource files, fvwm files, etc.
 
-;;;_* grep
-(use-package grep
-  :defer t
-  :bind (("M-s d" . find-grep-dired)
-         ("M-s f" . find-grep)
-         ("M-s g" . grep))
-  :init
-  (progn
-    (defun find-grep-in-project (command-args)
-      (interactive
-       (let ((default (thing-at-point 'symbol)))
-         (list (read-shell-command "Run find (like this): "
-                                   (cons (concat "git --no-pager grep -n "
-                                                 default)
-                                         (+ 24 (length default)))
-                                   'grep-find-history))))
-      (if command-args
-          (let ((null-device nil))      ; see grep
-            (grep command-args))))
-
-    (bind-key "M-s p" 'find-grep-in-project))
-
-  :config
-  (progn
-    (use-package grep-ed)
-
-    (grep-apply-setting 'grep-command "egrep -nH -e ")
-    (if t
-        (progn
-          (setq-default grep-first-column 1)
-          (grep-apply-setting
-           'grep-find-command
-           '("ag --noheading --nocolor --smart-case --nogroup --column -- "
-             . 61)))
-      (grep-apply-setting
-       'grep-find-command
-       '("find . -name '*.hs' -type f -print0 | xargs -P4 -0 egrep -nH "
-         . 62)))))
-
 ;;;_* hi-lock
 (use-package hi-lock
   :defer t
