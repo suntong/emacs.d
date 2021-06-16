@@ -76,6 +76,17 @@
 (require 'init-bootstrap)
 (defvar init-files
   '(
+    ;;;_** Emacs configuration
+    addon-emacs00
+    addon-edit00
+    addon-edit00_folding
+
+    ;;;_** Package configuration
+    init-edit00
+    init-code0p
+    init-code0f
+    init-doc00
+
     ;; Appearance
     ;init-locales
     ;;----------------------------------------------------------------------------
@@ -103,7 +114,6 @@
     ;; init-bindings
     ;; init-misc
     ;; init-compile
-    addon-edit00_folding
 
     ;; specific programming modes modes
     ;; init-csv
@@ -144,20 +154,6 @@
     ))
 
 (rr-safe-load-init-files)
-
-
-;(load-library "")
-;;;_** Emacs configuration
-;(load-library "init-font")
-(load-library "addon-emacs00")
-(load-library "addon-edit00")
-(message "Emacs configuration done.")
-
-;;;_** Package configuration
-(load-library "init-edit00")
-(load-library "init-code00")
-(load-library "init-doc00")
-(message "Packages configuration done.")
 
 ;;;_** Not installed through `package.el'
 
