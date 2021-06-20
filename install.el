@@ -28,10 +28,9 @@
    (package-refresh-contents))
 (defvar myown/packages
   '(undo-tree
-    auto-complete
     markdown-mode markdown-toc
     yaml-mode
-    go-autocomplete go-eldoc go-mode gotest
+    go-mode gotest
     dash s ;; for origami
     ))
 (dolist (p myown/packages)
