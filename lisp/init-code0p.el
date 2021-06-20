@@ -1,13 +1,12 @@
+;;; init-code0p.el --- General code setup
 ;; -*- emacs-lisp -*-
 
 ;; Copyright (C) 2015-2021 Tong Sun
-
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
 
-;; Commentary:
+;;; Commentary:
 
 ;; This is for the primary programming languages that I use.
-;; It depends heavily on `use-package' by John Wiegley.
 
 ;;; Code:
 
@@ -489,9 +488,11 @@
   ;; (global-font-lock-mode t)
 
 ;;;_* further customizations
+(load-library "init-code0p_lsp")
 (load-library "init-code0p_go")
 ;(load-library "init-code3p_lisp")
 ;(load-library "init-code3p_python")
 ;(load-library "init-code3p_ruby")
 
-;;;_* End:
+(provide 'init-code0p)
+;;; init-code0p.el ends here

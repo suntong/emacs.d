@@ -1,11 +1,8 @@
+;;; init-code0p_go.el --- Go mode setup
 ;; -*- emacs-lisp -*-
 
 ;; Copyright (C) 2015-2021 Tong Sun
-
 ;; Author: Tong Sun <suntong001@users.sourceforge.net>
-;; based on
-;; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
-;; http://tleyden.github.io/blog/2014/05/27/configure-emacs-as-a-go-editor-from-scratch-part-2/
 
 ;;; Commentary:
 
@@ -19,8 +16,14 @@
 (use-package go-mode
   :ensure t
   :mode "\\.go\\(\\'\\|\\.\\)"
+  ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
-  :hook (go-mode . dev/go-mode-hook)
+  ;; https://github.com/jwiegley/use-package#hooks
+  :hook (
+	 (go-mode . dev/go-mode-hook)
+	 (go-mode . lsp-deferred)
+	 (go-mode . lsp-go-install-save-hooks)
+	 )
 
   :config
   (defun dev/go-mode-hook ()
@@ -28,6 +31,14 @@
     ;; (setq indent-tabs-mode nil)
     ;; (flycheck-mode t)
     ;; (yas-minor-mode-on)
+    )
+
+  ;; Set up before-save hooks to format buffer and add/delete imports.
+  ;; Make sure you don't have other gofmt/goimports hooks enabled.
+  (defun lsp-go-install-save-hooks ()
+    "LSP Go save hooks."
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t)
     )
 
   ;; https://github.com/nlamirault/gotest.el
@@ -47,39 +58,5 @@
 
   )
 
-;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
-;; - The built-in xref package provides cross-references.
-;; - The built-in Flymake package provides an on-the-fly diagnostic overlay.
-;; - Company mode displays code completion candidates (with a richer UI than the built-in completion-at-point).
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred)
-  :config
-  ;; The CAPF back-end provides a bridge to the standard completion-at-point-functions facility, and thus works with any major mode that defines a proper completion function.
-  (setq lsp-completion-provider :capf)
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
-
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-
-;; Company mode is a standard completion package that works well with lsp-mode.
-(use-package company
-  :ensure t
-  :config
-  ;; Optionally enable completion-as-you-type behavior.
-  ;; don't add any dely before trying to complete thing being typed
-  ;; the call/response to gopls is asynchronous so this should have little
-  ;; to no affect on edit latency
-  (setq company-idle-delay 0.1)
-  ;; start completing after a single character instead of 3
-  (setq company-minimum-prefix-length 1)
-  ;; align fields in completions
-  (setq company-tooltip-align-annotations t)
-  )
-
-;; End:
+(provide 'init-code0p_go)
+;;; init-code0p_go.el ends here
