@@ -37,6 +37,7 @@
   :ensure t
   :commands (lsp lsp-deferred)
   :config
+  (setq lsp-enable-snippet nil)
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-sideline-enable nil)

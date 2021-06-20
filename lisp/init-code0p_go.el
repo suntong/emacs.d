@@ -15,7 +15,18 @@
 
 (use-package go-mode
   :ensure t
+  :commands go-mode
   :mode "\\.go\\(\\'\\|\\.\\)"
+
+  ;; use-package: Unrecognized keyword: :ensure-system-package
+  ;; :ensure-system-package
+  ;; (
+  ;;  (gopls . "go get -u golang.org/x/tools/gopls@latest")
+  ;;  (goimports . "go get -u golang.org/x/tools/cmd/goimports")
+  ;;  (godef . "go get -u github.com/rogpeppe/godef")
+  ;;  (gocode . "go get -u github.com/nsf/gocode")
+  ;;  )
+
   ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
   ;; https://github.com/jwiegley/use-package#hooks
@@ -42,7 +53,6 @@
     )
 
   ;; https://github.com/nlamirault/gotest.el
-  ;; https://github.com/cweill/gotests
   (use-package gotest
     :bind (:map go-mode-map
 		("C-c t p" . go-test-current-project)

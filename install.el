@@ -31,7 +31,7 @@
     auto-complete
     markdown-mode markdown-toc
     yaml-mode
-    go-autocomplete go-eldoc go-mode
+    go-autocomplete go-eldoc go-mode gotest
     dash s ;; for origami
     ))
 (dolist (p myown/packages)
