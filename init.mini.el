@@ -44,7 +44,6 @@
 ;; Users settings
 ;;----------------------------------------------------------------------------
 
-
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
   :ensure t
@@ -59,7 +58,6 @@
   ;; align fields in completions
   (setq company-tooltip-align-annotations t)
   )
-)
 
 ;; lsp-mode will detect company-mode automatically and will use it if its installed
 (use-package lsp-mode
@@ -69,8 +67,16 @@
   :config
   ;; The CAPF back-end provides a bridge to the standard completion-at-point-functions facility, and thus works with any major mode that defines a proper completion function.
   (setq lsp-completion-provider :capf)
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+  )
 
+;; (use-package go-mode
+;;   :ensure t
+;;   :defer t
+;;   :hook (go-mode . (lambda ()
+;;                      (require 'lsp-go)
+;;                      (require 'dap-go)
+;;                      (lsp-deferred)))
+;; )
 
 ;;----------------------------------------------------------------------------
 ;; Post initialization

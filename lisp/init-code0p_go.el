@@ -66,40 +66,6 @@
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
-;; Optional - provides fancier overlays.
-;; https://github.com/emacs-lsp/lsp-ui
-;; https://github.com/alxn/.emacs.d/blob/master/go-setup.el
-;; https://github.com/kosh04/.emacs.d/blob/master/config/40-lsp.el
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :commands lsp-ui-mode
-  :custom
-  (lsp-ui-doc-delay 0.4)
-  (lsp-ui-doc-position 'top)
-  (lsp-ui-doc-header t)
-  (lsp-ui-doc-include-signature nil)
-  (lsp-ui-doc-max-width 120)
-  (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
-  (lsp-ui-doc-max-height 30)
-  (lsp-ui-doc-use-childframe t)
-  (lsp-ui-doc-use-webkit t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-sideline-show-symbol t)
-  (lsp-ui-sideline-show-code-actions t)
-  :bind
-  (
-   :map lsp-mode-map
-   ("C-c l" . lsp-ui-imenu)
-
-   :map lsp-ui-imenu-mode-map
-   ("n" . next-line)
-   ("p" . previous-line)
-   ("<tab>"     . lsp-ui-imenu--next-kind)
-   ("<backtab>" . lsp-ui-imenu--prev-kind)
-   )
-  )
-
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
@@ -115,20 +81,5 @@
   ;; align fields in completions
   (setq company-tooltip-align-annotations t)
   )
-)
-
-;; company-lsp integrates company mode completion with lsp-mode.
-;; completion-at-point also works out of the box but doesn't support snippets.
-;; (use-package company-lsp
-;;   :ensure t
-;;   :after lsp-mode
-;;   :commands company-lsp
-;;   :custom
-;;   (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
-;;   (company-lsp-async t)
-;;   (company-lsp-enable-snippet t)
-;;   (company-lsp-enable-recompletion t)
-;;   )
-;; This package is deprecated and no longer works with lsp-mode. Also, the author is unreachable.
 
 ;; End:
