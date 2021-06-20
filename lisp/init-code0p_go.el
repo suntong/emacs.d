@@ -37,6 +37,14 @@
 	 )
 
   :config
+
+  ;; Gopls requires the projects to be under GOPATH
+  (setenv "GOPATH"
+	  (concat
+	   (substitute-in-file-name "$HOME/l/g") ":"
+	   (getenv "GOPATH"))
+  )
+
   (defun dev/go-mode-hook ()
     (setq tab-width 2)
     ;; (setq indent-tabs-mode nil)
