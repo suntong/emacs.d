@@ -409,7 +409,7 @@ then a space, then the current time according to the variable
 (bind-key "C-c q" 'fill-region)
 (bind-key "C-c r" 'replace-regexp)
 (bind-key "C-c s" 'replace-string)
-(bind-key "C-c u" 'rename-uniquely)
+(bind-key "C-c b u" 'rename-uniquely)
 
 (defun view-clipboard ()
   (interactive)

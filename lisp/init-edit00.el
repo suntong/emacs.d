@@ -309,8 +309,8 @@
     )
   :bind (("C-c j" . undo-tree-undo)
          ("C-c k" . undo-tree-redo)
-         ("C-c l" . undo-tree-switch-branch)
-         ("C-c '" . undo-tree-visualize)) )
+         ("C-c u l" . undo-tree-switch-branch)
+         ("C-c u '" . undo-tree-visualize)) )
 
 ;;;_* visual-line-mode
 ;; The problem with visual-line mode is that by default, there are no
