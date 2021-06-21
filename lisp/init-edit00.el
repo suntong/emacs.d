@@ -33,121 +33,6 @@
                (add-hook 'expand-expand-hook 'indent-according-to-mode)
                (add-hook 'expand-jump-hook 'indent-according-to-mode)))))
 
-;;;_* allout
-
-;; allout hot-spot keys and activities
-;;
-;; p allout-previous-visible-heading
-;; u allout-up-current-level
-;;
-;; f allout-forward-current-level
-;; b allout-backward-current-level
-;;
-;; a allout-beginning-of-current-entry
-;; e allout-end-of-entry
-;;
-;; i allout-show-children
-;; s allout-show-current-subtree
-;; t allout-toggle-current-subtree-exposure
-
-(use-package allout
-  :defer t
-  :config
-  (progn
-    (defvar allout-unprefixed-keybindings nil)
-
-    (defun my-allout-mode-hook ()
-      (dolist
-	  (mapping
-	   '(
-	     (?t . allout-hide-bodies)    ; Topics, Hide everything but headings (all body lines)
-	     (?c . allout-hide-current-entry) ; Current, Hide this entry's body
-	     (?l . allout-hide-current-leaves) ; Leaves, Hide body lines in this entry and sub-entries
-	     (?i . allout-show-current-branches) ; Show all sub-headings under this heading
-	     (?e . allout-show-entry)		 ; Show this heading's body
-	     (?o . allout-show-to-offshoot)))
-        (eval `(bind-key ,(concat (format-kbd-macro allout-command-prefix)
-                                  " " (char-to-string (car mapping)))
-                         (quote ,(cdr mapping))
-                         allout-mode-map)))
-
-      (setq allout-command-prefix (kbd "C-c C-v"))
-      )
-
-    (defvar my-allout-font-lock-keywords
-      '(;;
-	;; Highlight headings according to the level.
-	(eval . (list (concat "^\\(" allout-regexp "\\).+")
-		      0 '(or (cdr (assq (allout-depth)
-					'((1 . font-lock-function-name-face)
-					  (2 . font-lock-variable-name-face)
-					  (3 . font-lock-keyword-face)
-					  (4 . font-lock-builtin-face)
-					  (5 . font-lock-comment-face)
-					  (6 . font-lock-constant-face)
-					  (7 . font-lock-type-face)
-					  (8 . font-lock-string-face))))
-			     font-lock-warning-face)
-		      nil t)))
-      "Additional expressions to highlight in Outline mode.")
-
-    ;; add font-lock to allout mode
-    (defun my-allout-font-lock-hook ()
-      (set (make-local-variable 'font-lock-defaults)
-	   '(my-allout-font-lock-keywords t nil nil allout-back-to-current-heading)))
-
-
-    (add-hook 'allout-mode-hook 'my-allout-mode-hook)
-    ;(add-hook 'allout-mode-hook 'my-allout-font-lock-hook)
-    ))
-
-;; Enable the allout minor mode on Emacs starts for all modes
-;; by creating a global version of the minor mode
-(defun my-turn-on-allout-mode-maybe ()
-  "Enable `allout-mode', where applicable."
-  ;; (This function is called in every buffer, when the global mode is enabled.)
-  (unless (memq major-mode '(markdown-mode gfm-mode))
-  (allout-mode 1)))
-
-(define-globalized-minor-mode my-global-allout-mode allout-mode
-  my-turn-on-allout-mode-maybe
-  :group 'allout)
-
-(my-global-allout-mode 1)
-
-
-;;;_* auto-complete
-(use-package auto-complete-config
-  :defer t
-  :disabled t
-  :diminish auto-complete-mode
-  :init
-  (progn
-    (use-package pos-tip)
-    (ac-config-default))
-
-  :config
-  (progn
-    ;;(ac-set-trigger-key "TAB")
-    (ac-set-trigger-key "<backtab>")
-    (setq ac-use-menu-map t)
-
-    (bind-key "A-M-?" 'ac-last-help)
-    (unbind-key "C-s" ac-completing-map)))
-
-;;;_* autopair
-(use-package autopair
-  :defer t
-  :disabled t
-  :commands autopair-mode
-  :diminish autopair-mode
-  :init
-  (hook-into-modes #'autopair-mode '(c-mode-common-hook
-                                     text-mode-hook
-                                     ruby-mode-hook
-                                     python-mode-hook
-                                     sh-mode-hook)))
-
 ;;;_* autorevert
 (use-package autorevert
   :defer t
@@ -184,7 +69,7 @@
 
 ;;;_* generic-x
 (require 'generic-x)
-;; It will add syntax highlighting for batch files, ini files, command files, 
+;; It will add syntax highlighting for batch files, ini files, command files,
 ;; registry files, apache files, samba files, resource files, fvwm files, etc.
 
 ;;;_* hi-lock
@@ -201,25 +86,6 @@
   :bind (("C-. r" . popup-ruler)
          ("C-. R" . popup-ruler-vertical)))
 
-;;;_* recentf
-(use-package recentf
-  :defer t
-  :if (not noninteractive)
-  :init
-  (progn
-    (recentf-mode 1)
-
-    (defun recentf-add-dired-directory ()
-      (if (and dired-directory
-               (file-directory-p dired-directory)
-               (not (string= "/" dired-directory)))
-          (let ((last-idx (1- (length dired-directory))))
-            (recentf-add-file
-             (if (= ?/ (aref dired-directory last-idx))
-                 (substring dired-directory 0 last-idx)
-               dired-directory)))))
-
-    (add-hook 'dired-mode-hook 'recentf-add-dired-directory)))
 
 ;;;_* rectangle-mark-mode
 ;; In the rectangle-mark-mode, introduced in Emacs 24.4 and later
