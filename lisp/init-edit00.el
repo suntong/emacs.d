@@ -1,3 +1,4 @@
+;;; init-edit00 --- general editing packages init
 ;; -*- emacs-lisp -*-
 
 ;; Copyright (C) 2015-2021 Tong Sun
@@ -7,31 +8,11 @@
 ;;; Commentary:
 
 ;; This is init-edit00, using general editing packages.
-;; It depends heavily on `use-package' by John Wiegley.
 
 ;;; Code:
 
 (eval-when-compile
   (require 'use-package))
-
-;;;_* abbrev
-(use-package abbrev
-  :defer t
-  :disabled t
-  :commands abbrev-mode
-  :diminish abbrev-mode
-  :init
-  (hook-into-modes #'abbrev-mode '(text-mode-hook))
-
-  :config
-  (progn
-   (if (file-exists-p abbrev-file-name)
-       (quietly-read-abbrev-file))
-
-   (add-hook 'expand-load-hook
-             (lambda ()
-               (add-hook 'expand-expand-hook 'indent-according-to-mode)
-               (add-hook 'expand-jump-hook 'indent-according-to-mode)))))
 
 ;;;_* autorevert
 (use-package autorevert
@@ -199,6 +180,8 @@
 
 
 ;;;_* others
-;(load-library "init-edit01_yasnippet") 
+(load-library "init-edit00_abbrev")
+;(load-library "init-edit01_yasnippet")
 
-;; End:
+(provide 'init-edit00)
+;;; init-edit00.el ends here
