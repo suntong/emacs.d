@@ -44,8 +44,16 @@
   (use-package ediff-keep))
 
 
-;;;_* cc-mode
+;;;_* awk-mode
+;; https://emacs.stackexchange.com/questions/46714/
+(add-hook 'awk-mode-hook
+  (lambda ()
+    (message "awk hook function ran" )
+    (setq indent-tabs-mode nil)
+    (setq tab-width 2)
+    (setq c-basic-offset 2)))
 
+;;;_* cc-mode
 (use-package cc-mode
   :defer t
   :mode (("\\.h\\(h?\\|xx\\|pp\\)\\'" . c++-mode)
@@ -92,18 +100,18 @@
 
     (defun my-c-mode-common-hook ()
       (abbrev-mode 1)
-      (gtags-mode 1)
+      ;; (gtags-mode 1)
       (hs-minor-mode 1)
       (hide-ifdef-mode 1)
-      (whitespace-mode 1)
+      ;; (whitespace-mode 1)
       (which-function-mode 1)
       ;; (auto-complete-mode 1)
-      (yas-minor-mode 1)
+      ;; (yas-minor-mode 1)
       (bug-reference-prog-mode 1)
 
-      (diminish 'gtags-mode)
-      (diminish 'hs-minor-mode)
-      (diminish 'hide-ifdef-mode)
+      ;; (diminish 'gtags-mode)
+      ;; (diminish 'hs-minor-mode)
+      ;; (diminish 'hide-ifdef-mode)
 
       (bind-key "C-c p" 'insert-counting-printf c-mode-base-map)
 
