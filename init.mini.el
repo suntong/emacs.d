@@ -44,30 +44,8 @@
 ;; Users settings
 ;;----------------------------------------------------------------------------
 
-;; Company mode is a standard completion package that works well with lsp-mode.
-(use-package company
-  :ensure t
-  :config
-  ;; Optionally enable completion-as-you-type behavior.
-  ;; don't add any dely before trying to complete thing being typed
-  ;; the call/response to gopls is asynchronous so this should have little
-  ;; to no affect on edit latency
-  (setq company-idle-delay 0.1)
-  ;; start completing after a single character instead of 3
-  (setq company-minimum-prefix-length 1)
-  ;; align fields in completions
-  (setq company-tooltip-align-annotations t)
-  )
-
-;; lsp-mode will detect company-mode automatically and will use it if its installed
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred)
-  :config
-  ;; The CAPF back-end provides a bridge to the standard completion-at-point-functions facility, and thus works with any major mode that defines a proper completion function.
-  (setq lsp-completion-provider :capf)
-  )
+;;;_* further customizations
+(load-library "init-edit00_abbrev_test")
 
 ;; (use-package go-mode
 ;;   :ensure t
