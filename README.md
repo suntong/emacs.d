@@ -1,3 +1,5 @@
+## Niches
+
 This is my *modularized* `.emacs.d`. Two key niches separate mine with others:
 
 * The humongous init file has been broken down into manageable building blocks.
@@ -9,6 +11,20 @@ This is my *modularized* `.emacs.d`. Two key niches separate mine with others:
 * The customization are done with [minimalism](http://en.wikipedia.org/wiki/Minimalism_(computing)) as a prime goal, with all "unnecessary" code trimmed. I.e., use original features provided by Emacs out of box as much as possible. Only do further customization when Emacs fails to reach that whole night yards, e.g., showing the column number where the cursor is, or enabling selecting rectangular regions using mouse. BTW, if you are also into  [minimalism](http://en.wikipedia.org/wiki/Minimalism_(computing)) like me, check out my [emacs-traditional](http://sfxpt.wordpress.com/2014/12/13/bring-back-the-traditional-emacs/) as well.
 
 It's offered to the public for educational purposes only. If you mean to use it as your own, no support is offered whatsoever because I'm not a elisp developer at all.
+
+## For Emacs Traditional
+
+This is a companion for [Emacs Traditional](https://github.com/suntong/emacs-traditional/wiki/), as it is using packages directly from MELPA  as oppose to the OS level packages. It has many advantages, including but not limited to, [Emacs Traditional Precise Scrolling]( https://github.com/suntong/emacs-traditional/wiki/Emacs-Traditional-Precise-Scrolling/):
+
+![Emacs Traditional Precise Scrolling](https://user-images.githubusercontent.com/422244/124361925-e2042d00-dbff-11eb-8d50-505d5d815cfc.gif)
+
+Here is the video version of the above screencast:
+
+https://user-images.githubusercontent.com/422244/124361941-0233ec00-dc00-11eb-9861-935d873c55c4.mp4
+
+
+
+## Install
 
 To install it,
 
