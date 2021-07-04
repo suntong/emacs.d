@@ -124,16 +124,23 @@
 
 (progn
   ;; python
+  (when (boundp 'python-mode-abbrev-table)
+    (clear-abbrev-table python-mode-abbrev-table))
 
   (define-abbrev-table 'python-mode-abbrev-table
     '(
 
-      ("p" "print(▮)" ahf)
+      ("fo" "bar")
+      ("`foo" "bar")
+      ("`p" "print(▮)" ahf)
       ;;
 
-      )))
+      ))
+  )
 
 (set-default 'abbrev-mode t)
+
+;; == adapted from http://ergoemacs.org/emacs/elisp_abbrev.html
 
 ;;  the “ahf” stand for abbrev hook function.
 (defun ahf ()
@@ -149,30 +156,28 @@ prevent inserting the char that triggered expansion."
 
 (defun global-expand-abbrev ()
   "Function for value of `abbrev-expand-function'.
-Expand the symbol before cursor,
-if cursor is not in string or comment.
+Expand the symbol before cursor.
 Returns the abbrev symbol if there's a expansion, else nil."
   (interactive)
-  (when (elisp-abbrev-enable-function)
-    (let ( $p1 $p2
-               $abrStr
-               $abrSymbol
-               )
+  (let ( $p1 $p2
+             $abrStr
+             $abrSymbol
+             )
 
-      (save-excursion
-        (forward-symbol -1)
-        (setq $p1 (point))
-        (forward-symbol 1)
-        (setq $p2 (point)))
+    (save-excursion
+      (forward-symbol -1)
+      (setq $p1 (point))
+      (forward-symbol 1)
+      (setq $p2 (point)))
 
-      (setq $abrStr (buffer-substring-no-properties $p1 $p2))
-      (setq $abrSymbol (abbrev-symbol $abrStr))
-      (if $abrSymbol
-          (progn
-            (abbrev-insert $abrSymbol $abrStr $p1 $p2 )
-            (global-abbrev-position-cursor $p1)
-            $abrSymbol)
-        nil))))
+    (setq $abrStr (buffer-substring-no-properties $p1 $p2))
+    (setq $abrSymbol (abbrev-symbol $abrStr))
+    (if $abrSymbol
+        (progn
+          (abbrev-insert $abrSymbol $abrStr $p1 $p2 )
+          (global-abbrev-position-cursor $p1)
+          $abrSymbol)
+      nil)))
 
 (defun global-abbrev-position-cursor (&optional @pos)
   "Move cursor (from @POS) back to ▮ if exist, else put at end.
@@ -182,12 +187,6 @@ Return true if found, else false."
     (when $found-p (delete-char 1))
     $found-p
     ))
-
-(defun elisp-abbrev-enable-function ()
-  "Return t if not in string or comment.  Else nil.
-This is for abbrev table property `:enable-function'."
-  (let (($syntax-state (syntax-ppss)))
-    (not (or (nth 3 $syntax-state) (nth 4 $syntax-state)))))
 
 (setq save-abbrevs nil)
 
