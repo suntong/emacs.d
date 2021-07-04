@@ -96,42 +96,45 @@ Refer to the elisp comments in `abbrev--before-point' for details.")
 
   (define-abbrev-table 'go-mode-abbrev-table
     '(
-      ("gmn" "package main\n\nimport \"fmt\"\n\nfunc main() {\n\n	fmt.Printf(\"%v\\n\", ▮)\n\n}" ahf) ; go main
+      ("`gmn" "package main\n\nimport \"fmt\"\n\nfunc main() {\n\n	fmt.Printf(\"%v\\n\", ▮)\n\n}" ahf) ; go main
 
-      ("c" "const ▮ = 3" ahf)
-      ("dv" "var ▮ = " ahf)		; def v
-      ("v" "▮ := 3" ahf)
+      ("`c" "const ▮ = 3" ahf)
+      ("`dv" "var ▮ = " ahf)		; def v
+      ("`v" "▮ := 3" ahf)
 
-      ("pf" "fmt.Printf(\"%v\\n\", ▮)" ahf)
-      ("pl" "fmt.Println(▮)" ahf)
-      ("spf" "fmt.Sprintf(\"%v\", ▮)" ahf)
+      ("`pf" "fmt.Printf(\"%v\\n\", ▮)" ahf)
+      ("`pl" "fmt.Println(▮)" ahf)
+      ("`spf" "fmt.Sprintf(\"%v\", ▮)" ahf)
 
-      ("df" "func ▮(x int) int {\n	return nil\n}" ahf) ; def func
-      ("if" "if ▮ { 3 }" ahf)
-      ("ie" " if err != nil { panic(err) }")
-      ("ei" "else if ▮ > 0 { 3 }")
-      ("els" "else { ▮ }" ahf)
-      ("frl" "for ii := 0; ii < 4; ii++ { ▮ii }" ahf) ; for loop
-      ("fr" "for key, val := range xxx {
+      ("`df" "func ▮(x int) int {\n	return nil\n}" ahf) ; def func
+      ("`if" "if ▮ { 3 }" ahf)
+      ("`ie" " if err != nil { panic(err) }")
+      ("`ei" "else if ▮ > 0 { 3 }")
+      ("`els" "else { ▮ }" ahf)
+      ("`frl" "for ii := 0; ii < 4; ii++ { ▮ii }" ahf) ; for loop
+      ("`fr" "for key, val := range xxx {
 ▮
     }
 " ahf)					; for range
-      ("cmb" "/* \n▮\n*/" ahf)		; comment block
-      ("ft" "fallthrough" ahf)
-      ("stru" "type myS struct {\ny string\nx int\n}" ahf)
-      ("swtc" "	switch 3 {\n	case 1:\n		fmt.Println( 3 )\n	case 2, 3:\n		fmt.Println( 4 )\n	default:\n		fmt.Println( 5 )\n	}" ahf)
+      ("`cmb" "/* \n▮\n*/" ahf)		; comment block
+      ("`ft" "fallthrough" ahf)
+      ("`stru" "type myS struct {\ny string\nx int\n}" ahf)
+      ("`swtc" "	switch 3 {\n	case 1:\n		fmt.Println( 3 )\n	case 2, 3:\n		fmt.Println( 4 )\n	default:\n		fmt.Println( 5 )\n	}" ahf)
 
-      ("sl" "var ▮ = []int{1,2}" ahf)	; slice
-      ("ms" "var ▮ = map[string]string{`a`: `1`, `b`: `2`}" ahf) ; map str
-      ("mb" "var ▮ = make([]byte, 0, 9)" ahf)
-      ("mm" "var ▮ = make(map[string]int)" ahf)
-      ("len" "len(▮)" ahf)
-      ("rmc" "regexp.MustCompile(`▮`)" ahf)
-      ("rfa" "re.FindAll(▮, -1)" ahf)
+      ("`sl" "var ▮ = []int{1,2}" ahf)	; slice
+      ("`ms" "var ▮ = map[string]string{`a`: `1`, `b`: `2`}" ahf) ; map str
+      ("`mb" "var ▮ = make([]byte, 0, 9)" ahf)
+      ("`mm" "var ▮ = make(map[string]int)" ahf)
+      ("`ln" "len(▮)" ahf)
+      ("`rmc" "regexp.MustCompile(`▮`)" ahf)
+      ("`rfa" "re.FindAll(▮, -1)" ahf)
 
       ;;
 
-      )))
+      ))
+  (abbrev-table-put go-mode-abbrev-table :regexp extended-abbrev-regexp)
+  ;; (add-hook 'go-mode-hook #'abbrev-mode)
+  )
 
 (progn
   ;; python
@@ -177,7 +180,7 @@ Returns the abbrev symbol if there's a expansion, else nil."
 
     (save-excursion
       ;; (forward-symbol -1)
-      (re-search-backward extended-abbrev-regexp)
+      (re-search-backward extended-abbrev-regexp nil t)
       (setq $p1 (point))
       (forward-symbol 1)
       (setq $p2 (point)))
