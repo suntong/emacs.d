@@ -1,10 +1,12 @@
-;; https://emacs.stackexchange.com/questions/66410/different-abbrevs-for-each-major-mode
+;; https://emacs.stackexchange.com/questions/66548/practical-emacs-abbrev-mode
 
 (defvar my-abbrev-regexp
-  (rx (or bol (not (any "`" wordchar)))
-      (group (one-or-more (any "`" wordchar)))
-      (zero-or-more (not (any "`" wordchar))))
+  "\\(`[0-9A-Za-z._-]+\\)"
   "Use as :regexp in abbrev tables to make \\=` a valid abbrev char.
+
+If making \\=` optional (suffix it with ?), `re-search-backward' will
+not be able to be that aggressive to match to it.  Thus, making
+the leading \\=` mandatory.
 
 If `words-include-escapes' is used then this regexp can fail.
 Refer to the elisp comments in `abbrev--before-point' for details.")
@@ -27,10 +29,8 @@ Refer to the elisp comments in `abbrev--before-point' for details.")
   (define-abbrev-table 'python-mode-abbrev-table
     '(
 
-      ("fo" "bar")
-      ("p" "print(▮)" ahf)
       ("`foo" "bar")
-      ("`p" "print()" ahf)
+      ("`p" "print(▮)" ahf)
       ;;
 
       ))
@@ -63,7 +63,8 @@ Returns the abbrev symbol if there's a expansion, else nil."
              )
 
     (save-excursion
-      (forward-symbol -1)
+      ;; (forward-symbol -1)
+      (re-search-backward my-abbrev-regexp)
       (setq $p1 (point))
       (forward-symbol 1)
       (setq $p2 (point)))
