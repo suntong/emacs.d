@@ -35,6 +35,17 @@
                (add-hook 'expand-jump-hook 'indent-according-to-mode)))))
 
 
+(defvar extended-abbrev-regexp
+  "\\(`[0-9A-Za-z._-]+\\)"
+  "Use as :regexp in abbrev tables to make \\=` a valid abbrev char.
+
+If making \\=` optional (suffix it with ?), `re-search-backward' will
+not be able to be that aggressive to match to it.  Thus, making
+the leading \\=` mandatory.
+
+If `words-include-escapes' is used then this regexp can fail.
+Refer to the elisp comments in `abbrev--before-point' for details.")
+
 (clear-abbrev-table global-abbrev-table)
 
 (define-abbrev-table 'global-abbrev-table
@@ -130,12 +141,12 @@
   (define-abbrev-table 'python-mode-abbrev-table
     '(
 
-      ("fo" "bar")
       ("`foo" "bar")
       ("`p" "print(▮)" ahf)
       ;;
 
       ))
+  (abbrev-table-put python-mode-abbrev-table :regexp extended-abbrev-regexp)
   )
 
 (set-default 'abbrev-mode t)
@@ -165,7 +176,8 @@ Returns the abbrev symbol if there's a expansion, else nil."
              )
 
     (save-excursion
-      (forward-symbol -1)
+      ;; (forward-symbol -1)
+      (re-search-backward extended-abbrev-regexp)
       (setq $p1 (point))
       (forward-symbol 1)
       (setq $p2 (point)))
