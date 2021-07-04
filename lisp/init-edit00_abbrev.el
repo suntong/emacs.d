@@ -52,15 +52,15 @@ Refer to the elisp comments in `abbrev--before-point' for details.")
   '(
 
     ;; symbols
-    ("bu" "•" ahf)
-    ("la" "←" ahf)
-    ("ua" "↑" ahf)
-    ("ra" "→" ahf)
-    ("da" "↓" ahf)
-    ("fn" "ƒ" ahf)
+    ("`bu" "•" ahf)
+    ("`la" "←" ahf)
+    ("`ua" "↑" ahf)
+    ("`ra" "→" ahf)
+    ("`da" "↓" ahf)
+    ("`fn" "ƒ" ahf)
 
     ;; code
-    ("rt" "return" ahf)
+    ("`rt" "return")
 
     ;; personal
 
@@ -77,14 +77,14 @@ Refer to the elisp comments in `abbrev--before-point' for details.")
 
   (define-abbrev-table 'powershell-mode-abbrev-table
     '(
-      ("if" "if (3 -gt 2) { 3 }")
-      ("els" "else { 4 }")
-      ("iexp" "( $x -gt 5 ? 3 : 4)")
+      ("`if" "if (3 -gt 2) { 3 }")
+      ("`els" "else { 4 }")
+      ("`iexp" "( $x -gt 5 ? 3 : 4)")
 
-      ("frch" "foreach ($e in $arr) { $e }")
+      ("`frch" "foreach ($e in $arr) { $e }")
 
-      ("whl" "$i=5; while($i -lt 10) { $a[$i] }")
-      ("frl" "for ($i=0; $i -le $arr.length; $i=$i+1) { $arr[$i] }")
+      ("`whl" "$i=5; while($i -lt 10) { $a[$i] }")
+      ("`frl" "for ($i=0; $i -le $arr.length; $i=$i+1) { $arr[$i] }")
 
       ;;
       )))
