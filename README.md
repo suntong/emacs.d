@@ -22,6 +22,14 @@ Here is the video version of the above screencast:
 
 https://user-images.githubusercontent.com/422244/124361941-0233ec00-dc00-11eb-9861-935d873c55c4.mp4
 
+## IDE out of the box
+
+- My recent experience working on Java code made me realize how important an IDE is to code editing. 
+- Prior to that, I was just editing my Go code using the plain Emacs. 
+- So I decided to turn my Emacs to a code IDE, at least to my Go, and the result is quite satisfying. 
+
+
+https://user-images.githubusercontent.com/422244/124659805-598dc280-de73-11eb-973d-bd7132ab1918.mp4
 
 
 ## Install
