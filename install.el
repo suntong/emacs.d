@@ -28,6 +28,8 @@
    (package-refresh-contents))
 (defvar myown/packages
   '(undo-tree
+    use-package
+    lsp-mode
     markdown-mode markdown-toc
     yaml-mode
     go-mode gotest
