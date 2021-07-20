@@ -178,9 +178,14 @@ whitespace.  With argument, kill that many words."
 ;;;_ > M-?
 
 ;(bind-key "M-!" 'async-shell-command)
-(bind-key "M-/" 'dabbrev-expand)
+;(bind-key "M-/" 'dabbrev-expand)
+;(bind-key "M-`" 'insert-pair)  ; inserts "`'"
 (bind-key "M-'" 'insert-pair)
 (bind-key "M-\"" 'insert-pair)
+(bind-key "M-<" 'insert-pair)
+(bind-key "M-(" 'insert-pair)
+(bind-key "M-[" 'insert-pair)
+(bind-key "M-{" 'insert-pair)
 
 (defun align-code (beg end &optional arg)
   (interactive "rP")
@@ -190,7 +195,7 @@ whitespace.  With argument, kill that many words."
       (indent-region beg end-mark nil)
       (align beg end-mark))))
 
-(bind-key "M-[" 'align-code)
+(bind-key "M-S-[" 'align-code)
 (bind-key "M-`" 'other-frame)
 
 (bind-key "M-j" 'delete-indentation-forward)

@@ -36,6 +36,9 @@
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
+  :init
+  ;; default is Super-L, which is for Mac only
+  (setq lsp-keymap-prefix "C-c l")
   :config
   (setq lsp-enable-snippet nil)
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
@@ -43,6 +46,21 @@
   (setq lsp-ui-sideline-enable nil)
   ;; The CAPF back-end provides a bridge to the standard completion-at-point-functions facility, and thus works with any major mode that defines a proper completion function.
   (setq lsp-completion-provider :capf)
+
+  ; nicer keybindings
+  :bind
+  (
+
+   ; global
+   ("<C-S-down-mouse-1>" . mouse-buffer-menu)
+
+   :map lsp-mode-map
+	("<mouse-3>" . mouse-save-then-kill)
+	("<C-S-mouse-3>" . lsp-mouse-click)
+	("M-r" . lsp-rename)
+	("M-/" . lsp-find-references)
+	)
+
   )
 
 (provide 'init-code0p_lsp)
