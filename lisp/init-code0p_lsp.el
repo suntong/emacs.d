@@ -39,6 +39,8 @@
   :init
   ;; default is Super-L, which is for Mac only
   (setq lsp-keymap-prefix "C-c l")
+  ;; trace lsp stuff when debugging
+  ;(setq lsp-go-gopls-server-args '("-logfile" "/tmp/gopls.log" "-rpc.trace") )
   :config
   (setq lsp-enable-snippet nil)
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
