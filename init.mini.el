@@ -47,14 +47,39 @@
 ;;;_* further customizations
 (load-library "init-edit00_abbrev_test")
 
-;; (use-package go-mode
-;;   :ensure t
-;;   :defer t
-;;   :hook (go-mode . (lambda ()
-;;                      (require 'lsp-go)
-;;                      (require 'dap-go)
-;;                      (lsp-deferred)))
-;; )
+(use-package go-mode
+  :ensure t
+  :defer t
+  ;; :hook (go-mode . (lambda ()
+  ;;                    (require 'lsp-go)
+  ;;                    (lsp-deferred)))
+  :hook (
+	 (go-mode . dev/go-mode-hook)
+	 (go-mode . lsp-deferred)
+	 ;; (go-mode . lsp-go-install-save-hooks)
+	 (go-mode . gofmt-save-hooks)
+	 )
+
+  :config
+
+  (defun dev/go-mode-hook ()
+    (setq tab-width 2)
+    )
+
+  ;; Make sure you don't have other gofmt/goimports hooks enabled.
+  (setq gofmt-command "goimports")
+  (defun gofmt-save-hooks ()
+    "LSP Go save hooks."
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    )
+
+  (defun lsp-go-install-save-hooks ()
+    "LSP Go save hooks."
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t)
+    )
+
+)
 
 ;;----------------------------------------------------------------------------
 ;; Post initialization

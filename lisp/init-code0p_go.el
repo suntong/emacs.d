@@ -27,13 +27,14 @@
   ;;  (gocode . "go get -u github.com/nsf/gocode")
   ;;  )
 
-  ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+  ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
   ;; https://github.com/jwiegley/use-package#hooks
   :hook (
 	 (go-mode . dev/go-mode-hook)
 	 (go-mode . lsp-deferred)
-	 (go-mode . lsp-go-install-save-hooks)
+	 ;; (go-mode . lsp-go-install-save-hooks)
+	 (go-mode . gofmt-save-hooks)
 	 )
 
   :config
@@ -54,6 +55,12 @@
 
   ;; Set up before-save hooks to format buffer and add/delete imports.
   ;; Make sure you don't have other gofmt/goimports hooks enabled.
+  (setq gofmt-command "goimports")
+  (defun gofmt-save-hooks ()
+    "LSP Go save hooks."
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    )
+
   (defun lsp-go-install-save-hooks ()
     "LSP Go save hooks."
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
