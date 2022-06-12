@@ -149,15 +149,26 @@
 ;; http://www.emacswiki.org/emacs/RedoMode
 (use-package undo-tree
   :defer t
+  :diminish undo-tree-mode
   :init (progn
-    (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-diff t)
+    ;; (setq undo-tree-visualizer-timestamps t)
+    ;; (setq undo-tree-visualizer-diff t)
     (global-undo-tree-mode)
     )
-  :bind (("C-c j" . undo-tree-undo)
-         ("C-c k" . undo-tree-redo)
-         ("C-c u l" . undo-tree-switch-branch)
-         ("C-c u '" . undo-tree-visualize)) )
+  :custom
+  (
+   (undo-tree-visualizer-diff t)
+   (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+   (undo-tree-visualizer-timestamps t)
+   )
+  :bind
+  (
+   ("C-c j" . undo-tree-undo)
+   ("C-c k" . undo-tree-redo)
+   ("C-c u l" . undo-tree-switch-branch)
+   ("C-c u '" . undo-tree-visualize)
+   )
+  )
 
 ;;;_* visual-line-mode
 ;; The problem with visual-line mode is that by default, there are no
