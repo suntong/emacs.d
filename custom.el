@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(gotest yaml-mode undo-tree preseed-generic-mode markdown-toc))
+   '(php-mode gotest yaml-mode undo-tree preseed-generic-mode markdown-toc))
  '(session-use-package t nil (session)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

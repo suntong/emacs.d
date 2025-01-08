@@ -393,6 +393,61 @@
      indent-tabs-mode nil))
   )
 
+;;;_* php, config based on cc-mode
+;; PHP Major mode
+(use-package php-mode
+  :ensure t  ;; Ensure package is installed
+  :defer t   ;; Defer loading until first use (improves startup time)
+  :mode ("\\.php\\'" . php-mode) ; Associate .php files
+  :hook (php-mode
+	 . (lambda ()
+             ;; Buffer-local customizations for php-mode
+             (setq-local indent-tabs-mode nil)       ;  (highly recommended)
+             (setq-local c-basic-offset 2)           ;  (buffer-local)
+	     (setq-local c-continued-statement-offset 2)
+             (setq-local c-brace-offset -2)
+             (setq-local c-argdecl-indent 0)
+             (setq-local c-label-offset -2)
+             (setq-local c-basic-offset 2)
+             (c-set-offset 'case-label '+)
+             (c-set-offset 'arglist-close 'c-lineup-arglist-operators)
+             ;(c-set-offset 'arglist-intro '+) ; for FAPI arrays and DBTNG
+             ;(c-set-offset 'arglist-cont-nonempty 'c-lineup-math) ; for DBTNG fields and values
+	     ;(setq c-electric-flag nil)
+	     ;; electric behaviours appear to be bad/unwanted in php-mode
+	     (setq-local show-trailing-whitespace t)
+             (message "php-mode buffer configured!")))
+  :init      ;; Code to run before loading the package
+  (progn
+    ;; Ensure proper indentation of heredocs
+    (setq php-heredoc-indent t)
+
+    (setq php-mode-coding-style 'psr2)) ; Use PSR-2 coding style for php
+  :config    ;; Code to run after the package is loaded
+  (progn
+    ;; Enable electric indentation
+    (add-hook 'php-mode-hook 'electric-indent-mode)
+    ;; Enable auto-completion (if you use company-mode or similar)
+    (when (require 'company nil t)
+      (add-hook 'php-mode-hook 'company-mode))
+    ;; Enable flycheck for syntax checking (if you use it)
+    (when (require 'flycheck nil t)
+       (add-hook 'php-mode-hook 'flycheck-mode))
+
+    ;; Other useful settings
+
+    ;; Show matching parentheses
+    (show-paren-mode 1)
+    ;; Highlight current line
+    ;(global-hl-line-mode 1)
+    ;; Enable font-locking for better syntax highlighting
+    (global-font-lock-mode 1)
+
+    ;; Example of custom keybindings (optional)
+    (local-keymap-set "C-c p v" 'php-validate-buffer) ;; Example: validate the buffer
+    (local-set-key (kbd "C-c p r") 'python-send-region)
+    (local-set-key (kbd "C-c !") 'python-shell-switch-to-shell)))
+
 ;;;_* cperl-mode
 ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
 

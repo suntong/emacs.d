@@ -34,6 +34,7 @@
     yaml-mode
     go-mode gotest
     dash s ;; for origami
+    php-mode
     ))
 (dolist (p myown/packages)
    (when (not (package-installed-p p))
